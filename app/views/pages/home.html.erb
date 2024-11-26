@@ -1,20 +1,19 @@
 <div class="container d-flex">
-  <%# <div class="row">
-    <p>LOGO</p>
-  </div> %>
 
   <div class="row">
     <div>
       <h2>Choisissez un pseudo</h2>
-      <p>blablabla</p>
+      <%= simple_form_for current_or_guest_user do |f| %>
+        <%= f.input :username, label: false, placeholder: "pseudo", error: "Obligatoire" %>
+        <%= f.submit "Continuer" %>
+      <% end %>
     </div>
 
     <div>
-      <button class="btn">Se connecter</button>
+      <button class="btn btn-primary">S'inscrire</button>
+      <button class="btn btn-outline">Se connecter</button>
     </div>
 
   </div>
-
-
 
 </div>
