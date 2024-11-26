@@ -8,6 +8,7 @@ class PartiesController < ApplicationController
     if params[:party_code].present?
       party = Party.find_by(party_code: params[:party_code])
       if party
+        @party_player = PartyPlayer.create(user: current_or_guest_user, party: party)
         redirect_to party_path(party)
       else
         flash.now[:alert] = "Invalid party code"
@@ -28,6 +29,7 @@ class PartiesController < ApplicationController
     @party = Party.new(party_params)
     @party.admin = current_or_guest_user
     @party.party_code = rand(100000..999999)
+    @party_player = PartyPlayer.create(user: current_or_guest_user, party: @party)
     if @party.save
       redirect_to party_path(@party), notice: 'Party was successfully created.'
     else
