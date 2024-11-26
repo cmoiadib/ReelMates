@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   root to: "pages#home"
 
   get "up" => "rails/health#show", as: :rails_health_check
-  resources :users, only: [:new, :create]
+  resources :users, only: [:update]
   resources :parties, only: [:index, :show, :new, :create] do
     member do
       get :result
