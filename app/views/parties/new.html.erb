@@ -1,0 +1,48 @@
+<h1>Choose your settings</h1>
+
+<h3>Platforms</h3>
+<div>
+  <%= check_box_tag "party[platform_settings][]", "netflix" %>
+  <%= label_tag "party[platform_settings][]", "Netflix" %>
+
+  <%= check_box_tag "party[platform_settings][]", "prime" %>
+  <%= label_tag "party[platform_settings][]", "Prime" %>
+
+  <%= check_box_tag "party[platform_settings][]", "hbo" %>
+  <%= label_tag "party[platform_settings][]", "HBO" %>
+
+  <%= check_box_tag "party[platform_settings][]", "disney_plus" %>
+  <%= label_tag "party[platform_settings][]", "Disney+" %>
+
+  <%= check_box_tag "party[platform_settings][]", "ocs" %>
+  <%= label_tag "party[platform_settings][]", "OCS" %>
+
+  <%= check_box_tag "party[platform_settings][]", "apple_tv_plus" %>
+  <%= label_tag "party[platform_settings][]", "Apple TV+" %>
+</div>
+
+<h3>Select a time interval</h3>
+<div>
+  <%= label_tag "party[period_settings][start_year]", "From:" %>
+  <%= number_field_tag "party[period_settings][start_year]", nil, min: 1900, max: Time.current.year, class: "form-control" %>
+
+  <%= label_tag "party[period_settings][end_year]", "To:" %>
+  <%= number_field_tag "party[period_settings][end_year]", nil, min: 1900, max: Time.current.year, class: "form-control" %>
+</div>
+
+<h3>Choose categories</h3>
+<div class="d-flex flex-wrap">
+  <% @categories.each do |category| %>
+    <div class="form-check me-2">
+      <%= button_tag category["name"], type: "button", class: "btn btn-outline-primary", onclick: "document.getElementById('party_category_settings_#{category["id"]}').checked = !document.getElementById('party_category_settings_#{category["id"]}').checked;" %>
+      <%= check_box_tag "party[category_settings][]", category["id"], false, id: "party_category_settings_#{category["id"]}", class: "form-check-input", style: "display:none;" %>
+    </div>
+  <% end %>
+</div>
+
+<%= form_with model: @party, local: true do |form| %>
+  <div>
+    <%= link_to "Back", :back, class: "btn btn-secondary" %>
+    <%= form.submit "Create", class: "btn btn-primary" %>
+  </div>
+<% end %>
