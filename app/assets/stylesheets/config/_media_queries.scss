@@ -1,0 +1,14 @@
+// Specific CSS for your home-page
+body {
+  font-size: 14px;
+  margin: 10px;
+  background-color: #F8F9FA;
+}
+/* Styles for screens ≥576px */
+@media (min-width: 576px) {
+  body {
+      font-size: 16px;
+      margin: 20px;
+      background-color: #FFFFFF;
+  }
+}
