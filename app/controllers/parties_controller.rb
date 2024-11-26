@@ -1,4 +1,7 @@
 class PartiesController < ApplicationController
+  def index
+  end
+
   def show
     @party = Party.find(params[:id])
   end
@@ -14,6 +17,9 @@ class PartiesController < ApplicationController
     else
       render :new, status: :unprocessable_entity
     end
+  end
+
+  def result
   end
 
   private
