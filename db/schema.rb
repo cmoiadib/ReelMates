@@ -16,12 +16,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_26_145115) do
 
   create_table "parties", force: :cascade do |t|
     t.string "party_code"
-    t.string "platform_setting", default: [], array: true
+    t.string "platform_setting"
     t.integer "start_year"
     t.integer "end_year"
-    t.string "category_setting", default: [], array: true
+    t.string "category_setting"
     t.boolean "start"
-    t.string "tags", default: [], array: true
+    t.string "tags"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false

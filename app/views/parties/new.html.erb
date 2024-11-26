@@ -3,7 +3,18 @@
 <h3>Platforms</h3>
   <%= simple_form_for @party do |f| %>
 
-  <%= f.input :platform_setting, collection: Party::PROVIDERS, as: :check_boxes %>
+  <div data-controller="checkbox">
+    <div class="mb-2">
+      <%= check_box_tag :check_all_platforms, 1, false,
+          data: {
+            checkbox_target: "all",
+            action: "checkbox#toggleAll"
+          }
+      %>
+      <%= label_tag :check_all_platforms, "Select All Platforms" %>
+    </div>
+    <%= f.input :platform_setting, collection: Party::PROVIDERS, as: :check_boxes, label: false, input_html: { data: { checkbox_target: "checkbox" } } %>
+  </div>
 
   <h3>Select a time interval</h3>
   <div>
@@ -13,7 +24,22 @@
   </div>
 
   <h3>Choose categories</h3>
-  <%= f.input :category_setting, collection: @categories.map { |category| category["name"] }, as: :check_boxes %>
+  <div data-controller="checkbox">
+    <div class="mb-2">
+      <%= check_box_tag :check_all, 1, false,
+          data: {
+            checkbox_target: "all",
+            action: "checkbox#toggleAll"
+          }
+      %>
+      <%= label_tag :check_all, "Select All Categories" %>
+    </div>
+    <%= f.input :category_setting,
+        collection: @categories.map { |category| category["name"] },
+        as: :check_boxes,
+        label: false,
+        input_html: { data: { checkbox_target: "checkbox" } } %>
+  </div>
 
     <div>
       <%= link_to "Back", :back, class: "btn btn-secondary" %>
