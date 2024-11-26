@@ -6,13 +6,14 @@
   <%= f.input :platform_setting, collection: Party::PROVIDERS, as: :check_boxes %>
 
   <h3>Select a time interval</h3>
+
   <div>
     <%= f.input :start_year %>
     <%= f.input :end_year %>
-
   </div>
 
   <h3>Choose categories</h3>
+  
   <%= f.input :category_setting, collection: @categories.map { |category| category["name"] }, as: :check_boxes %>
 
     <div>
