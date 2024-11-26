@@ -52,6 +52,9 @@ gem "simple_form", github: "heartcombo/simple_form"
 gem "sassc-rails"
 gem 'ostruct'
 gem "devise-guests"
+gem 'omniauth-google-oauth2'
+gem 'font-awesome-rails'
+
 
 group :development, :test do
   gem "dotenv-rails"
