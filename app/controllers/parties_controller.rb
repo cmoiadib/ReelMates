@@ -17,6 +17,7 @@ class PartiesController < ApplicationController
   def create
     @party = Party.new(party_params)
     @party.admin = current_or_guest_user
+    @party.party_code = rand(100000..999999)
     if @party.save
       redirect_to party_path(@party), notice: 'Party was successfully created.'
     else
