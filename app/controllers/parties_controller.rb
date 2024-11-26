@@ -3,7 +3,17 @@ require "json"
 
 class PartiesController < ApplicationController
   before_action :fetch_categories, only: :new
+
   def index
+    if params[:party_code].present?
+      party = Party.find_by(party_code: params[:party_code])
+      if party
+        redirect_to party_path(party)
+      else
+        flash.now[:alert] = "Invalid party code"
+        render :index
+      end
+    end
   end
 
   def show

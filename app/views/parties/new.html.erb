@@ -37,7 +37,6 @@
     <%= f.input :category_setting,
         collection: @categories.map { |category| category["name"] },
         as: :check_boxes,
-        label: false,
         input_html: { data: { checkbox_target: "checkbox" } } %>
   </div>
 

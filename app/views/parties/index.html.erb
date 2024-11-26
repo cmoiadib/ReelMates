@@ -1,4 +1,12 @@
 <h1>Hi <%= current_or_guest_user.username %> !</h1>
 
 <%= link_to "Create a party", new_party_path, class: "btn btn-primary" %>
-<#%= link_to "Join a party", party_path(@party), class: "btn btn-primary" %>
+
+<div class="party-join-form">
+  <%= form_with url: parties_path, method: :get, local: true do |f| %>
+    <%= f.text_field :party_code,
+                     placeholder: "Enter party code",
+                     class: "form-control" %>
+    <%= f.submit "Join party", class: "btn btn-primary" %>
+  <% end %>
+</div>
