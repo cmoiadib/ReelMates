@@ -1,19 +1,19 @@
-<div class="container d-flex">
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
 
-  <div class="row">
-    <div>
-      <h2>Choisissez un pseudo</h2>
-      <%= simple_form_for current_or_guest_user do |f| %>
-        <%= f.input :username, label: false, placeholder: "pseudo", error: "Obligatoire" %>
-        <%= f.submit "Continuer" %>
+  <div class="row text-center">
+    <div class="col-12">
+      <h3>Choisissez un pseudo</h3>
+       <div class="input-group">
+        <%= simple_form_for current_or_guest_user do |f| %>
+          <%= f.input :username, label: false, placeholder: "pseudo", error: "Obligatoire" %>
+          <div class="input-group-append" button>
+            <%= f.submit "Continuer" %>
+        </div>
+      </div>
       <% end %>
-    </div>
-
-    <div>
-      <button class="btn btn-primary">S'inscrire</button>
-      <button class="btn btn-outline">Se connecter</button>
-    </div>
-
+      <div class="row justify-content-center mt-4 border-top">
+        <button class="btn btn-primary mt-4">S'inscrire</button>
+        <button class="btn btn-outline mt-2">Se connecter</button>
+      </div>
   </div>
-
 </div>
