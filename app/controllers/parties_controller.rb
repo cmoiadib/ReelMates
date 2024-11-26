@@ -2,6 +2,7 @@ require "open-uri"
 require "json"
 
 class PartiesController < ApplicationController
+  before_action :fetch_categories, only: :new
   def index
   end
 
@@ -11,11 +12,11 @@ class PartiesController < ApplicationController
 
   def new
     @party = Party.new
-    fetch_categories
   end
 
   def create
     @party = Party.new(party_params)
+    @party.admin = current_or_guest_user
     if @party.save
       redirect_to party_path(@party), notice: 'Party was successfully created.'
     else
@@ -29,7 +30,7 @@ class PartiesController < ApplicationController
   private
 
   def party_params
-    params.require(:party).permit(:platform_setting, :start_year, :end_year, :category_setting)
+    params.require(:party).permit(:start_year, :end_year, category_setting: [], platform_setting: [])
   end
 
   def fetch_categories
