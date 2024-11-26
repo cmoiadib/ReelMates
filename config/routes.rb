@@ -3,10 +3,11 @@ Rails.application.routes.draw do
   root to: "pages#home"
 
   get "up" => "rails/health#show", as: :rails_health_check
-
-  resources :guests, only: [:new, :create]
-  resources :parties, only: [:show, :new, :create] do
-    resources :results, only: [:show]
+  resources :users, only: [:new, :create]
+  resources :parties, only: [:index, :show, :new, :create] do
+    member do
+      get :result
+    end
     resources :swipes, only: [:new, :create]
   end
 end
