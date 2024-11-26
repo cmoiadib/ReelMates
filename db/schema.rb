@@ -10,8 +10,60 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 0) do
+ActiveRecord::Schema[7.1].define(version: 2024_11_26_102510) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "parties", force: :cascade do |t|
+    t.string "party_code"
+    t.string "platform_setting", default: [], array: true
+    t.integer "start_year"
+    t.integer "end_year"
+    t.string "category_setting", default: [], array: true
+    t.boolean "start"
+    t.string "tags", default: [], array: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "party_player_id"
+    t.index ["party_player_id"], name: "index_parties_on_party_player_id"
+  end
+
+  create_table "party_players", force: :cascade do |t|
+    t.bigint "party_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["party_id"], name: "index_party_players_on_party_id"
+    t.index ["user_id"], name: "index_party_players_on_user_id"
+  end
+
+  create_table "swipes", force: :cascade do |t|
+    t.integer "movie_id"
+    t.boolean "is_liked"
+    t.string "tags", default: [], array: true
+    t.bigint "party_player_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["party_player_id"], name: "index_swipes_on_party_player_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "username", default: "", null: false
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "saved_settings", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "guest", default: false
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  add_foreign_key "parties", "party_players"
+  add_foreign_key "party_players", "parties"
+  add_foreign_key "party_players", "users"
+  add_foreign_key "swipes", "party_players"
 end
