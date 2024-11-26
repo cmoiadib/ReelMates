@@ -16,8 +16,6 @@ class PartiesController < ApplicationController
     end
   end
 
-  #test
-
   private
 
   def party_params

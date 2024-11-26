@@ -123,6 +123,8 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
+    devise-guests (0.8.3)
+      devise
     dotenv (3.1.4)
     dotenv-rails (3.1.4)
       dotenv (= 3.1.4)
@@ -322,6 +324,7 @@ DEPENDENCIES
   capybara
   debug
   devise
+  devise-guests
   dotenv-rails
   font-awesome-sass (~> 6.1)
   importmap-rails
