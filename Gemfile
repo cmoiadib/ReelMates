@@ -54,6 +54,7 @@ gem 'ostruct'
 gem "devise-guests"
 gem 'omniauth-google-oauth2'
 gem 'font-awesome-rails'
+# gem 'swiper-rails'
 
 
 group :development, :test do
