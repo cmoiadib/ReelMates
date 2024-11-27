@@ -1,3 +1,5 @@
 <h1><%= @party.party_code %></h1>
 
 <p><%= @party.party_players.count %></p>
+
+<%= link_to "Start game", start_party_path(@party), method: :put, class: "btn btn-primary" %>

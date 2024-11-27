@@ -25,8 +25,15 @@ class PartiesController < ApplicationController
     @party = Party.new
   end
 
+  def start
+    @party = Party.find(params[:id])
+    @party.update_attribute(:start, true)
+    redirect_to party_path(@party)
+  end
+
   def create
     @party = Party.new(party_params)
+    @party.start = false
     @party.admin = current_or_guest_user
     @party.party_code = rand(100000..999999)
     @party_player = PartyPlayer.create(user: current_or_guest_user, party: @party)

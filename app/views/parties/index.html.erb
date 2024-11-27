@@ -3,7 +3,7 @@
 <%= link_to "Create a party", new_party_path, class: "btn btn-primary" %>
 
 <div class="party-join-form">
-  <%= form_with url: parties_path, method: :get, local: true do |f| %>
+  <%= form_with url: parties_path, method: :get do |f| %>
     <%= f.text_field :party_code,
                      placeholder: "Enter party code",
                      class: "form-control" %>
