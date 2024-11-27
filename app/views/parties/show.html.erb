@@ -2,4 +2,6 @@
 
 <p><%= @party.party_players.count %></p>
 
-<%= link_to "Start game", start_party_path(@party), method: :put, class: "btn btn-primary" %>
+<% if current_or_guest_user == @party.admin %>
+  <%= link_to "Start game", start_party_path(@party), method: :put, class: "btn btn-primary" %>
+<% end %>

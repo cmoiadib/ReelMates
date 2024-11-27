@@ -8,10 +8,15 @@ class PartiesController < ApplicationController
     if params[:party_code].present?
       party = Party.find_by(party_code: params[:party_code])
       if party
-        @party_player = PartyPlayer.create(user: current_or_guest_user, party: party)
-        redirect_to party_path(party)
+        if !party.start?
+          @party_player = PartyPlayer.create(user: current_or_guest_user, party: party)
+          redirect_to party_path(party)
+        else
+          flash.now[:alert] = "Party already started"
+          render :index
+        end
       else
-        flash.now[:alert] = "Invalid party code"
+        flash.now[:alert] = "Invalid code"
         render :index
       end
     end
