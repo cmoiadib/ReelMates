@@ -1,0 +1,7 @@
+<h1>Swipes</h1>
+
+<% @movies.each do |movie| %>
+  <p><%= movie["title"] %></p>
+<% end %>
+
+<%= link_to "Back to party", party_path(@party) %>

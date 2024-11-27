@@ -13,7 +13,16 @@
       %>
       <%= label_tag :check_all_platforms, "Select All Platforms" %>
     </div>
-    <%= f.input :platform_setting, collection: Party::PROVIDERS, as: :check_boxes, label: false, input_html: { data: { checkbox_target: "checkbox" } } %>
+    <%= f.input :platform_setting,
+                collection: Party::PROVIDERS,
+                as: :check_boxes,
+                label_method: lambda { |provider| "<p>#{provider[:name]}</p>".html_safe },
+                value_method: lambda { |provider| provider[:id] },
+                input_html: {
+                  data: { checkbox_target: "checkbox" },
+                  multiple: true
+                },
+                include_hidden: false %>
   </div>
 
   <h3>Select a time interval</h3>
@@ -35,9 +44,15 @@
       <%= label_tag :check_all, "Select All Categories" %>
     </div>
     <%= f.input :category_setting,
-        collection: @categories.map { |category| category["name"] },
-        as: :check_boxes,
-        input_html: { data: { checkbox_target: "checkbox" } } %>
+                collection: Party::GENRES,
+                as: :check_boxes,
+                label_method: lambda { |genre| "<p>#{genre[:name]}</p>".html_safe },
+                value_method: lambda { |genre| genre[:id] },
+                input_html: {
+                  data: { checkbox_target: "checkbox" },
+                  multiple: true
+                },
+                include_hidden: false %>
   </div>
 
     <div>

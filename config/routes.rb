@@ -10,6 +10,6 @@ Rails.application.routes.draw do
       get :start
       get :result
     end
-    resources :swipes, only: [:new, :create]
+    resources :swipes, only: [:index,:new, :create]
   end
 end

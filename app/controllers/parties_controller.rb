@@ -33,7 +33,7 @@ class PartiesController < ApplicationController
   def start
     @party = Party.find(params[:id])
     @party.update_attribute(:start, true)
-    redirect_to party_path(@party)
+    redirect_to party_swipes_path(@party)
   end
 
   def create
