@@ -9,23 +9,25 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.2/css/all.css">
+    <%# SWIPER %>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" rel="stylesheet">
   </head>
 
   <body>
-  <%# <%= render "shared/navbar" %>
-  <%= render "shared/flashes" %>
-  <p class="notice"><%= notice %></p>
-  <p class="alert"><%= alert %></p>
+    <%# <%= render "shared/navbar" %>
+    <%= render "shared/flashes" %>
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
 
-  <div data-controller="splash">
-    <div id="splash-screen" data-splash-target="splash">
-      <img src="<%= asset_path('logo-test.jpeg') %>" alt="Logo" />
+    <div data-controller="splash">
+      <div id="splash-screen" data-splash-target="splash">
+        <img src="<%= asset_path('logo-test.jpeg') %>" alt="Logo" />
+      </div>
+
+      <div id="main-content" data-splash-target="content" class="d-none">
+        <%= yield %>
+      </div>
     </div>
-
-    <div id="main-content" data-splash-target="content" class="d-none">
-      <%= yield %>
-    </div>
-  </div>
-
   </body>
 </html>
