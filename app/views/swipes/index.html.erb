@@ -1,7 +1,18 @@
 <h1>Swipes</h1>
 
-<% @movies.each do |movie| %>
-  <p><%= movie["title"] %></p>
-<% end %>
+<div data-controller="swiper">
+  <div class="swiper" data-swiper-target="container m-5">
+    <div class="swiper-wrapper">
+      <% @movies.each do |movie| %>
+        <div class="swiper-slide">
+          <img src="https://image.tmdb.org/t/p/w500<%= movie["poster_path"] %>" alt="<%= movie["title"] %>">
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="swiper-pagination" data-swiper-target="pagination"></div>
+</div>
+
 
 <%= link_to "Back to party", party_path(@party) %>
