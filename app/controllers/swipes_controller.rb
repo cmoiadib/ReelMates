@@ -10,9 +10,9 @@ class SwipesController < ApplicationController
     @start_year = @party.start_year
     @end_year = @party.end_year
 
-    # all_movies = []
+    all_movies = []
 
-    for i in 1..5
+    for i in 1..10
       @url = "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=fr-FR&watch_region=FR&page=#{i}"
       @url += "&with_watch_providers=#{@providers.join('|')}" if @providers.present?
       @url += "&with_genres=#{@categories.join('|')}" if @categories.present?
@@ -22,11 +22,11 @@ class SwipesController < ApplicationController
 
       response = URI.open(@url).read
       parsed_response = JSON.parse(response)
-      all_movies = parsed_response["results"]
+      @all_movies = all_movies.concat(parsed_response["results"])
     end
     @party_player = PartyPlayer.find_by(user: current_or_guest_user, party: @party)
 
-    @party_player.update(movies: all_movies)
+    @party_player.update(movies: @all_movies.sample(20))
   end
 
   def show
@@ -49,7 +49,6 @@ class SwipesController < ApplicationController
   end
 
   def create
-    debugger
     swipe = Swipe.new(swipe_params)
     swipe.party_player_id = current_party_player.id
 
