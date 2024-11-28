@@ -9,6 +9,7 @@
 
 <% if @party.start == true %>
   <%= link_to "See results", result_party_path(@party), method: :get, class: "btn btn-primary" %>
-  <%= @party.tags %>
-  <%= @party.movies %>
+  <% @party.final_movies.each do |movie| %>
+    <%= movie["title"] %>
+  <% end %>
 <% end %>
