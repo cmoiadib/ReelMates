@@ -1,22 +1,16 @@
 <h1>Swipes</h1>
-
-<div data-controller="swiper">
-  <div class="swiper" data-swiper-target="container m-5">
-    <div class="swiper-wrapper">
-      <% @movies.each do |movie| %>
-        <div class="swiper-slide">
-          <img src="https://image.tmdb.org/t/p/w500<%= movie["poster_path"] %>" alt="<%= movie["title"] %>">
-        </div>
-      <% end %>
+<div class="container d-flex flex-wrap">
+  <% @party_player.movies.each do |movie| %>
+    <div class="card" style="width: 200px;">
+    <img src="https://image.tmdb.org/t/p/w500<%= movie["poster_path"] %>" alt="<%= movie["title"] %>" width="200" height="300">
+    <p><%= movie["title"] %></p>
+    <p><%= movie["overview"].truncate(100) %></p>
+    <div class="d-flex justify-content-center gap-2 mb-2">
+      <%= link_to "Like", new_party_swipe_path( swipe: { movie_id: movie["id"], is_liked: true, tags: movie["genre_ids"], party_player_id: PartyPlayer.find_by(user: current_or_guest_user, party: @party).id } ), class: "btn btn-success btn-sm" %>
+      <%= link_to "Dislike", new_party_swipe_path( swipe: { movie_id: movie["id"], is_liked: false, party_player_id: PartyPlayer.find_by(user: current_or_guest_user, party: @party).id } ), class: "btn btn-danger btn-sm" %>
     </div>
   </div>
+<% end %>
 
-  <div id="timer" class="timer">
-    <p>Temps restant: <span data-swiper-target="timer">20</span> secondes</p>
-  </div>
-
-  <div class="swiper-pagination" data-swiper-target="pagination"></div>
 </div>
-
-
 <%= link_to "Back to party", party_path(@party) %>
