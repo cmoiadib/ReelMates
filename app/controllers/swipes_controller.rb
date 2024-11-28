@@ -1,6 +1,7 @@
 require "open-uri"
 require "json"
 
+
 class SwipesController < ApplicationController
   def index
     @party = Party.find(params[:party_id])

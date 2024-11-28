@@ -7,6 +7,7 @@ export default class extends Controller {
     partyPlayerId: String
   }
 
+  
   connect() {
     this.swiper = new Swiper(this.element, {
       // pass EffectTinder module to modules
