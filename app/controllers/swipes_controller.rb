@@ -12,7 +12,7 @@ class SwipesController < ApplicationController
 
     all_movies = []
 
-    for i in 1..10
+    for i in 1..20
       @url = "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=fr-FR&watch_region=FR&page=#{i}"
       @url += "&with_watch_providers=#{@providers.join('|')}" if @providers.present?
       @url += "&with_genres=#{@categories.join('|')}" if @categories.present?

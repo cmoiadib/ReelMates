@@ -64,6 +64,8 @@ class PartiesController < ApplicationController
     @start_year = @party.start_year
     @end_year = @party.end_year
 
+    all_movies = []
+
     for i in 1..5
       @url = "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=fr-FR&watch_region=FR&page=#{i}"
       @url += "&with_watch_providers=#{@providers.join('|')}" if @providers.present?
@@ -74,9 +76,10 @@ class PartiesController < ApplicationController
 
       response = URI.open(@url).read
       parsed_response = JSON.parse(response)
-      @all_movies = parsed_response["results"]
+      @all_movies = all_movies.concat(parsed_response["results"])
     end
     @final_movies = (@all_movies.reject { |movie| @movies_ids.include?(movie["id"]) }).sample(3)
+    @party.update(final_movies: @final_movies)
     redirect_to party_path(@party)
   end
 
