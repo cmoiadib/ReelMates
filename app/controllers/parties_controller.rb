@@ -50,6 +50,11 @@ class PartiesController < ApplicationController
   end
 
   def result
+    @party = Party.find(params[:id])
+    @movies_ids = PartyPlayer.find_by(user: current_or_guest_user, party: @party).swipes.pluck(:movie_id)
+    @tags_liked = PartyPlayer.find_by(user: current_or_guest_user, party: @party).swipes.where(is_liked: true).pluck(:tags).flatten
+    @party.update(tags: @tags_liked, movies: @movies_ids)
+    redirect_to party_path(@party)
   end
 
   private
