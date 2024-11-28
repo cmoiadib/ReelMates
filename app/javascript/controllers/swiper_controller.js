@@ -1,75 +1,44 @@
-import { Controller } from "@hotwired/stimulus";
-import Swiper from 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.mjs';
+import { Controller } from "@hotwired/stimulus"
+import EffectTinder from '../tinder-effect';
 
 export default class extends Controller {
-  static targets = ["container", "timer"]
+  static values = {
+    partyId: String,
+    partyPlayerId: String
+  }
 
+  
   connect() {
-    // Durée de la session en secondes (par exemple, 30 secondes)
-    this.timerDuration = 20;
-    this.timeRemaining = this.timerDuration; // Timer de départ
-    this.timerTarget.innerText = this.timeRemaining;
-
-    // Initialisation du Swiper
-    this.swiper = new Swiper(this.containerTarget, {
-      effect: "cards",  // Utilisation de l'effet "cards"
+    this.swiper = new Swiper(this.element, {
+      // pass EffectTinder module to modules
+      modules: [EffectTinder],
+      // specify "tinder" effect
+      effect: 'tinder',
       grabCursor: true,
-      loop: false, // Pas de boucle infinie
-    })
-
-    // Gérer le changement de slide (lors du swipe)
-    this.swiper.on("slideChange", () => {
-      const activeSlide = this.swiper.slides[this.swiper.activeIndex]
-      const itemId = activeSlide.dataset.itemId
-      const category = activeSlide.dataset.category
-
-      // Détecter la direction du swipe
-      const isLiked = this.swiper.swipeDirection === "next" // Droite = like, gauche = dislike
-
-      // Envoyer l'action "like" ou "dislike" au backend
-      this.sendLikeAction(itemId, isLiked, category)
-    })
-
-    // Démarrer le timer
-    this.startTimer();
-  }
-
-  startTimer() {
-    this.timerInterval = setInterval(() => {
-      this.timeRemaining -= 1;
-
-      this.timerTarget.innerText = this.timeRemaining;
-
-      // Si le temps est écoulé, on arrête le swiper et désactive l'interaction
-      if (this.timeRemaining <= 0) {
-        clearInterval(this.timerInterval);
-        this.stopSwiper();
-        alert("Le temps est écoulé, la partie est terminée !");
+      // loop is also supported
+      // loop: true,
+      on: {
+        yes: (event) => {
+          fetch(`/parties/${this.partyId}/swipes`, {
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+            },
+            method: 'POST',
+            body: JSON.stringify({ swipe: { movie_id: this.swiper.visibleSlides[0].dataset.movieId, is_liked: true, party_player_id: this.partyPlayerId } })
+          })
+        },
+        no: (event) => {
+          fetch(`/parties/${this.partyId}/swipes`, {
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+            },
+            method: 'POST',
+            body: JSON.stringify({ swipe: { movie_id: this.swiper.visibleSlides[0].dataset.movieId, is_liked: false, party_player_id: this.partyPlayerId } })
+          })
+        }
       }
-    }, 1000); // Le timer décompte chaque seconde
-  }
-
-  stopSwiper() {
-    // Désactive le swiper en bloquant les actions de glissement
-    this.swiper.disable();
-  }
-
-  sendLikeAction(itemId, isLiked, category) {
-    fetch(`/swipes`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRF-Token": document.querySelector("meta[name='csrf-token']").content,
-      },
-      body: JSON.stringify({
-        movie_id: itemId,
-        is_liked: isLiked,
-        tags: [category]  // On envoie la catégorie en tant que tag
-      })
-    }).then(response => {
-      if (!response.ok) {
-        console.error("Erreur lors de l'enregistrement du swipe")
-      }
-    })
+    });
   }
 }

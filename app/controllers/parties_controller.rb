@@ -1,6 +1,7 @@
 require "open-uri"
 require "json"
 
+
 class PartiesController < ApplicationController
   before_action :fetch_categories, only: :new
 
