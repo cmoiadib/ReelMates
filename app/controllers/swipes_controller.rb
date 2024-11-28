@@ -48,6 +48,7 @@ class SwipesController < ApplicationController
   end
 
   def create
+    debugger
     swipe = Swipe.new(swipe_params)
     swipe.party_player_id = current_party_player.id
 
