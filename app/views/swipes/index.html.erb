@@ -7,7 +7,7 @@
     <p><%= movie["overview"].truncate(100) %></p>
     <div class="d-flex justify-content-center gap-2 mb-2">
       <%= link_to "Like", new_party_swipe_path( swipe: { movie_id: movie["id"], is_liked: true, tags: movie["genre_ids"], party_player_id: PartyPlayer.find_by(user: current_or_guest_user, party: @party).id } ), class: "btn btn-success btn-sm" %>
-      <%= link_to "Dislike", new_party_swipe_path( swipe: { movie_id: movie["id"], is_liked: false, party_player_id: PartyPlayer.find_by(user: current_or_guest_user, party: @party).id } ), class: "btn btn-danger btn-sm" %>
+      <%= link_to "Dislike", new_party_swipe_path( swipe: { movie_id: movie["id"], is_liked: false, tags: movie["genre_ids"], party_player_id: PartyPlayer.find_by(user: current_or_guest_user, party: @party).id } ), class: "btn btn-danger btn-sm" %>
     </div>
   </div>
 <% end %>
