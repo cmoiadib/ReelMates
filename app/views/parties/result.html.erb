@@ -2,8 +2,8 @@
   <div data-controller="swiper" data-action="swiper:tinderSwipe@document->swiper#handleSwipe" data-swiper-party-id-value="<%= @party.id %>" data-swiper-party-player-id-value="<%= PartyPlayer.find_by(user: current_or_guest_user, party: @party).id %>" class="swiper swiper-tinder swiper-3d swiper-initialized swiper-horizontal swiper-watch-progress">
     <div class="swiper-wrapper" style="cursor: grab;">
       <% @party.final_movies.each do |final_movie| %>
-        <div data-movie-id="<%= final_movie["id"] %>" class="swiper-slide swiper-slide-visible swiper-slide-fully-visible swiper-slide-active" style="width: 300px; transform: translate3d(0px, 0px, 0px) rotateZ(0deg); opacity: 1;">
-          <%= image_tag "https://image.tmdb.org/t/p/w500#{final_movie["poster_path"]}", style: "width: 300px;" %>
+        <div data-movie-id="<%= final_movie["id"] %>" class="swiper-slide swiper-slide-visible swiper-slide-fully-visible swiper-slide-active" style="width: 100%; transform: translate3d(0px, 0px, 0px) rotateZ(0deg); opacity: 1;">
+          <%= image_tag "https://image.tmdb.org/t/p/w500#{final_movie["poster_path"]}", style: "width: 100%;" %>
           <div class="swiper-tinder-label swiper-tinder-label-yes" style="opacity: 0;">Like</div>
           <div class="swiper-tinder-label swiper-tinder-label-no" style="opacity: 0;">Nope</div>
         </div>
