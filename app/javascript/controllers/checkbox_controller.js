@@ -6,6 +6,7 @@ export default class extends Controller {
   toggleAll() {
     const checked = this.allTarget.checked
     this.checkboxTargets.forEach(checkbox => {
+      checkbox.classList.add('btn')
       checkbox.checked = checked
     })
   }

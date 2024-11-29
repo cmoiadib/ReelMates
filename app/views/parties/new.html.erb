@@ -1,4 +1,4 @@
-<h1>Choose your settings</h1>
+<h1>Party Settings</h1>
 
 
 <h3>Platforms</h3>
@@ -6,58 +6,69 @@
 
   <div data-controller="checkbox">
     <div class="mb-2">
+      <div class="pill-form w-50">
       <%= check_box_tag :check_all_platforms, 1, false,
+                  class: 'd-none',
           data: {
             checkbox_target: "all",
             action: "checkbox#toggleAll"
           }
       %>
-      <%= label_tag :check_all_platforms, "Select All Platforms" %>
+      <%= label_tag :check_all_platforms, "Select All Platforms", class: 'pill-form' %>
+      </div>
     </div>
-    <%= f.input :platform_setting,
-                collection: Party::PROVIDERS,
+    <div class="d-flex flex-wrap w-100">
+      <%= f.input :platform_setting,
+                  collection: Party::PROVIDERS,
                 as: :check_boxes,
-                label_method: lambda { |provider| "<p>#{provider[:name]}</p>".html_safe },
+                label_method: lambda { |provider| "<span class='btn btn-primary pill-form'>#{provider[:name]}</span>".html_safe },
                 value_method: lambda { |provider| provider[:id] },
                 input_html: {
                   data: { checkbox_target: "checkbox" },
-                  multiple: true
+                  multiple: true,
+                  class: 'd-none'
                 },
                 include_hidden: false %>
+    </div>
   </div>
 
-  <h3>Select a time interval</h3>
+  <h3>Period</h3>
 
   <div>
-    <%= f.input :start_year %>
-    <%= f.input :end_year %>
+    <%= f.input :start_year, input_html: { class: '' } %>
+    <%= f.input :end_year, input_html: { class: '' } %>
   </div>
 
-  <h3>Choose categories</h3>
+  <h3>Categories</h3>
   <div data-controller="checkbox">
     <div class="mb-2">
-      <%= check_box_tag :check_all, 1, false,
-          data: {
+        <div class="pill-form w-50">
+        <%= check_box_tag :check_all, 1, false,
+            class: 'd-none',
+            data: {
             checkbox_target: "all",
-            action: "checkbox#toggleAll"
-          }
-      %>
-      <%= label_tag :check_all, "Select All Categories" %>
+              action: "checkbox#toggleAll"
+            }
+        %>
+        <%= label_tag :check_all, "Select All Categories", class: 'pill-form'%>
+      </div>
     </div>
-    <%= f.input :category_setting,
-                collection: Party::GENRES,
+    <div class="d-flex flex-wrap w-100">
+      <%= f.input :category_setting,
+                  collection: Party::GENRES,
                 as: :check_boxes,
-                label_method: lambda { |genre| "<p>#{genre[:name]}</p>".html_safe },
+                label_method: lambda { |genre| "<span class='btn pill-form'>#{genre[:name]}</span>".html_safe },
                 value_method: lambda { |genre| genre[:id] },
                 input_html: {
                   data: { checkbox_target: "checkbox" },
-                  multiple: true
+                  multiple: true,
+                  class: 'd-none'
                 },
                 include_hidden: false %>
   </div>
 
     <div>
-      <%= link_to "Back", :back, class: "btn btn-secondary" %>
-      <%= f.submit "Create", class: "btn btn-primary" %>
+      <%= link_to "Back", :back, class: "btn btn-secondary pill-form" %>
+      <%= f.submit "Create", class: "btn btn-primary pill-form" %>
     </div>
 <% end %>
