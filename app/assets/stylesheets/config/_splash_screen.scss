@@ -3,7 +3,7 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #fff; /* ou une couleur adaptée */
+  background: linear-gradient(135deg, #FF5F6D, #FFC371); /* ou une couleur adaptée */
   z-index: 1000;
   position: fixed;
   top: 0;
@@ -12,7 +12,7 @@
 }
 
 #splash-screen img {
-  width: 200px; /* ajuste selon la taille de ton logo */
+  width: 150px; /* ajuste selon la taille de ton logo */
   animation: fadeOut 1.5s ease-out 1.5s forwards;
 }
 
