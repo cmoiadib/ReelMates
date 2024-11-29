@@ -8,11 +8,9 @@ Rails.application.routes.draw do
     member do
       put :start
       get :start
+      get :result
+      get :final_result
     end
-    resources :swipes, only: %i[index new create] do
-      member do
-        get :result
-      end
-    end
+    resources :swipes, only: %i[index new create]
   end
 end
