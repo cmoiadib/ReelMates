@@ -53,10 +53,9 @@ class PartiesController < ApplicationController
 
   def result
     @party = Party.find(params[:id])
-    @movies_ids = PartyPlayer.find_by(user: current_or_guest_user, party: @party).swipes.pluck(:movie_id)
-    @tags_liked = PartyPlayer.find_by(user: current_or_guest_user, party: @party).swipes.where(is_liked: true).pluck(:tags).flatten
-    @party.update(tags: @tags_liked, movies: @movies_ids)
-
+    @movies_ids = @party.movies
+    @tags_liked = @party.swipes.where(is_liked: true).pluck(:tags).flatten
+    @party.update(tags: @tags_liked)
     tags_count = @tags_liked.tally
     max_count = tags_count.values.max
     @tags_final = tags_count.select { |_key, value| value == max_count }.keys
@@ -79,6 +78,7 @@ class PartiesController < ApplicationController
       parsed_response = JSON.parse(response)
       @all_movies = all_movies.concat(parsed_response["results"])
     end
+
     @final_movies = (@all_movies.reject { |movie| @movies_ids.include?(movie["id"]) }).sample(3)
     @party.update(final_movies: @final_movies)
   end
