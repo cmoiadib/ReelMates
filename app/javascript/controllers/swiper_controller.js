@@ -7,7 +7,7 @@ export default class extends Controller {
     partyPlayerId: String
   }
 
-  
+
   connect() {
     this.swiper = new Swiper(this.element, {
       // pass EffectTinder module to modules
@@ -18,27 +18,58 @@ export default class extends Controller {
       // loop is also supported
       // loop: true,
       on: {
-        yes: (event) => {
-          fetch(`/parties/${this.partyId}/swipes`, {
-            headers: {
-              'Content-Type': 'application/json',
-              'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
-            },
-            method: 'POST',
-            body: JSON.stringify({ swipe: { movie_id: this.swiper.visibleSlides[0].dataset.movieId, is_liked: true, party_player_id: this.partyPlayerId } })
-          })
-        },
-        no: (event) => {
-          fetch(`/parties/${this.partyId}/swipes`, {
-            headers: {
-              'Content-Type': 'application/json',
-              'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
-            },
-            method: 'POST',
-            body: JSON.stringify({ swipe: { movie_id: this.swiper.visibleSlides[0].dataset.movieId, is_liked: false, party_player_id: this.partyPlayerId } })
-          })
-        }
+        yes: () => this.rightSwipe(),
+        no: () => this.leftSwipe()
       }
     });
+  }
+
+  // showResults() {
+  //   document.getElementById('loading-screen').style.display = 'block';
+
+  //   fetch(`/parties/${this.partyIdValue}/swipes/result`, {
+  //     method: 'GET',
+  //     headers: {
+  //       'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]')?.content,
+  //       'Accept': 'application/json'
+  //     }
+  //   }).then(response => {
+  //     setTimeout(function() {
+  //       document.getElementById('loading-screen').style.display = 'none';
+  //       document.getElementById('results-content').style.display = 'block';
+  //     }, 5000);
+  //   });
+  // }
+
+  handleSwipe(event) {
+    const direction = event.detail.swipeDirection;
+
+    if (direction === 'right') {
+      this.rightSwipe();
+    } else {
+      this.leftSwipe();
+    }
+  }
+
+  rightSwipe() {
+    fetch(`/parties/${this.partyIdValue}/swipes`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+      },
+      method: 'POST',
+      body: JSON.stringify({ swipe: { movie_id: this.swiper.visibleSlides[0].dataset.movieId, is_liked: true, party_player_id: this.partyPlayerIdValue } })
+    })
+  }
+
+  leftSwipe() {
+    fetch(`/parties/${this.partyIdValue}/swipes`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+      },
+      method: 'POST',
+      body: JSON.stringify({ swipe: { movie_id: this.swiper.visibleSlides[0].dataset.movieId, is_liked: false, party_player_id: this.partyPlayerIdValue } })
+    })
   }
 }
