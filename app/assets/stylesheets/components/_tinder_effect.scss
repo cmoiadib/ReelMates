@@ -8,8 +8,15 @@
 }
 .swiper-tinder {
   box-sizing: border-box;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
   .swiper-slide {
     overflow: hidden;
+    width: 100vw !important;
+    height: 100vh !important;
     img {
       width: 100%;
       height: 100%;
@@ -26,34 +33,34 @@
   border-radius: 4px;
   opacity: 0;
   color: var(--swiper-tinder-label-text-color);
+  z-index: 2;
 }
 .swiper-tinder-label-yes {
-  left: 3%;
-  top: 5%;
+  left: 5%;
+  top: 10%;
   transform: rotate(-20deg);
   background-color: var(--swiper-tinder-yes-color);
   transform-origin: right top;
 }
-
 .swiper-tinder-label-no {
-  right: 3%;
-  top: 5%;
+  right: 5%;
+  top: 10%;
   transform: rotate(20deg);
   background-color: var(--swiper-tinder-no-color);
   transform-origin: left top;
 }
 .swiper-tinder-button {
-  position: absolute;
+  position: fixed;
   cursor: pointer;
   bottom: 32px;
   width: var(--swiper-tinder-button-size);
   height: var(--swiper-tinder-button-size);
   border: 1px solid;
   border-radius: 999px;
-  background: transparent;
+  background: rgba(255, 255, 255, 0.9);
   appearance: none;
   outline: none;
-  box-shadow: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   z-index: 100;
   transition-duration: 100ms;
   font-size: var(--swiper-tinder-button-icon-size) !important;
@@ -99,5 +106,8 @@
     }
   }
 }
-
-//
+@supports (padding: env(safe-area-inset-bottom)) {
+  .swiper-tinder-button {
+    bottom: calc(32px + env(safe-area-inset-bottom));
+  }
+}

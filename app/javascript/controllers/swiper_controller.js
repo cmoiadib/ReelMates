@@ -9,6 +9,8 @@ export default class extends Controller {
 
 
   connect() {
+    console.log("HHEEELLLOOO");
+
     this.swiper = new Swiper(this.element, {
       // pass EffectTinder module to modules
       modules: [EffectTinder],
@@ -22,6 +24,7 @@ export default class extends Controller {
         no: () => this.leftSwipe()
       }
     });
+    console.log(this.swiper.visibleSlides);
   }
 
   // showResults() {
@@ -58,8 +61,13 @@ export default class extends Controller {
         'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
       },
       method: 'POST',
-      body: JSON.stringify({ swipe: { movie_id: this.swiper.visibleSlides[0].dataset.movieId, is_liked: true, party_player_id: this.partyPlayerIdValue } })
-    })
+      body: JSON.stringify({ swipe: { movie_id: this.swiper.visibleSlides[0].dataset.movieId, is_liked: true, party_player_id: this.partyPlayerIdValue, tags: JSON.parse(this.swiper.visibleSlides[0].dataset.movieTags || "[]") } })
+    }).then(response => response.json())
+      .then(data => {
+        if (data.last_swipe) {
+          window.location.href = `/parties/${this.partyIdValue}/result`;
+        }
+      })
   }
 
   leftSwipe() {
@@ -69,7 +77,16 @@ export default class extends Controller {
         'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
       },
       method: 'POST',
-      body: JSON.stringify({ swipe: { movie_id: this.swiper.visibleSlides[0].dataset.movieId, is_liked: false, party_player_id: this.partyPlayerIdValue } })
+      body: JSON.stringify({ swipe: { movie_id: this.swiper.visibleSlides[0].dataset.movieId, is_liked: false, party_player_id: this.partyPlayerIdValue, tags: JSON.parse(this.swiper.visibleSlides[0].dataset.movieTags || "[]") } })
+    }).then(response => response.json())
+    .then(data => {
+      if (data.last_swipe) {
+        window.location.href = `/parties/${this.partyIdValue}/result`;
+      }
     })
+  }
+
+  disconnect() {
+    this.swiper.destroy(true, true);
   }
 }
