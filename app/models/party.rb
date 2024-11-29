@@ -1,8 +1,13 @@
+require "open-uri"
+require "json"
+
 class Party < ApplicationRecord
   belongs_to :admin, class_name: 'User', foreign_key: 'user_id'
   has_many :party_players, dependent: :destroy
   has_many :users, through: :party_players
   has_many :swipes, through: :party_players
+
+  after_update :assign_movies!, if: :saved_change_to_start?
 
   PROVIDERS = [
     { name: "Netflix", id: "8" },
@@ -39,5 +44,38 @@ class Party < ApplicationRecord
 
   def category_setting=(values)
     super(Array(values))
+  end
+
+  def assign_movies!
+    all_movies = []
+
+    for i in 1..20
+      url = "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=fr-FR&watch_region=FR&page=#{i}"
+      url += "&with_watch_providers=#{platform_setting.join('|')}" if platform_setting.present?
+      url += "&with_genres=#{category_setting.join('|')}" if category_setting.present?
+      url += "&primary_release_date.gte=#{start_year}-01-01" if start_year.present?
+      url += "&primary_release_date.lte=#{end_year}-12-31" if end_year.present?
+      url += "&api_key=#{ENV['TMDB_API_KEY']}"
+
+      response = URI.open(url).read
+      parsed_response = JSON.parse(response)
+      all_movies = all_movies.concat(parsed_response["results"])
+    end
+
+    party_players.each do |party_player|
+      selected_movies = all_movies.sample(20)
+      party_player.update(movies: selected_movies)
+    end
+
+    all_player_movies = party_players.map { |player| player.movies }.flatten.map { |movie| movie["id"] }.uniq
+    update(movies: all_player_movies)
+  end
+
+  def started?
+    start
+  end
+
+  def movies_assigned?
+
   end
 end

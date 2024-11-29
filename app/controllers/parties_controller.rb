@@ -25,6 +25,7 @@ class PartiesController < ApplicationController
 
   def show
     @party = Party.find(params[:id])
+    @party_player = @party.party_players.find_by(user: current_or_guest_user)
   end
 
   def new
@@ -52,10 +53,9 @@ class PartiesController < ApplicationController
 
   def result
     @party = Party.find(params[:id])
-    @movies_ids = PartyPlayer.find_by(user: current_or_guest_user, party: @party).swipes.pluck(:movie_id)
-    @tags_liked = PartyPlayer.find_by(user: current_or_guest_user, party: @party).swipes.where(is_liked: true).pluck(:tags).flatten
-    @party.update(tags: @tags_liked, movies: @movies_ids)
-
+    @movies_ids = @party.movies
+    @tags_liked = @party.swipes.where(is_liked: true).pluck(:tags).flatten
+    @party.update(tags: @tags_liked)
     tags_count = @tags_liked.tally
     max_count = tags_count.values.max
     @tags_final = tags_count.select { |_key, value| value == max_count }.keys
@@ -78,9 +78,15 @@ class PartiesController < ApplicationController
       parsed_response = JSON.parse(response)
       @all_movies = all_movies.concat(parsed_response["results"])
     end
+
     @final_movies = (@all_movies.reject { |movie| @movies_ids.include?(movie["id"]) }).sample(3)
     @party.update(final_movies: @final_movies)
-    redirect_to party_path(@party)
+  end
+
+  def final_result
+    @party = Party.find(params[:id])
+    @party_player = PartyPlayer.find_by(user: current_or_guest_user, party: @party)
+    @winning_movie = find_winning_movie
   end
 
   private
@@ -94,5 +100,14 @@ class PartiesController < ApplicationController
     url = "https://api.themoviedb.org/3/genre/movie/list?language=fr&api_key=#{api_key}"
     response = URI.open(url).read
     @categories = JSON.parse(response)["genres"]
+  end
+
+  def find_winning_movie
+    movies_liked = @party_player.swipes.where(is_liked: true).pluck(:movie_id)
+    likes_count = movies_liked.tally
+    total_players = @party.party_players.count
+
+    unanimous_movies = likes_count.select { |_movie_id, likes| likes == total_players }.keys
+    unanimous_movies.first || likes_count.max_by { |_movie_id, likes| likes }.first
   end
 end

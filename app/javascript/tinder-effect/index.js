@@ -166,6 +166,14 @@ export default function EffectTinder({ swiper, on }) {
     if (swiper.params.effect !== 'tinder') return;
     preventInteraction = false;
     isSlideChangeTouched = false;
+
+    const customEvent = new CustomEvent('swiper:tinderSwipe', {
+      detail: {
+        swipeDirection: swipeDirection < 0 ? 'left' : 'right'
+      }
+    });
+    document.dispatchEvent(customEvent);
+
     requestAnimationFrame(() => {
       isTouched = false;
     });

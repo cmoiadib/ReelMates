@@ -1,32 +1,7 @@
-require "open-uri"
-require "json"
-
-
 class SwipesController < ApplicationController
   def index
     @party = Party.find(params[:party_id])
-    @providers = @party.platform_setting
-    @categories = @party.category_setting
-    @start_year = @party.start_year
-    @end_year = @party.end_year
-
-    all_movies = []
-
-    for i in 1..20
-      @url = "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=fr-FR&watch_region=FR&page=#{i}"
-      @url += "&with_watch_providers=#{@providers.join('|')}" if @providers.present?
-      @url += "&with_genres=#{@categories.join('|')}" if @categories.present?
-      @url += "&primary_release_date.gte=#{@start_year}-01-01" if @start_year.present?
-      @url += "&primary_release_date.lte=#{@end_year}-12-31" if @end_year.present?
-      @url += "&api_key=#{ENV['TMDB_API_KEY']}"
-
-      response = URI.open(@url).read
-      parsed_response = JSON.parse(response)
-      @all_movies = all_movies.concat(parsed_response["results"])
-    end
     @party_player = PartyPlayer.find_by(user: current_or_guest_user, party: @party)
-
-    @party_player.update(movies: @all_movies.sample(20))
   end
 
   def show
@@ -50,10 +25,9 @@ class SwipesController < ApplicationController
 
   def create
     swipe = Swipe.new(swipe_params)
-    swipe.party_player_id = current_party_player.id
 
     if swipe.save
-      render json: { message: 'Swipe enregistré' }, status: :ok
+      render json: { message: 'Swipe enregistré', last_swipe: last_swipe?(swipe) }, status: :ok
     else
       render json: { error: 'Erreur lors de l\'enregistrement du swipe' }, status: :unprocessable_entity
     end
@@ -63,5 +37,9 @@ class SwipesController < ApplicationController
 
   def swipe_params
     params.require(:swipe).permit(:party_player_id, :movie_id, :is_liked, tags: [])
+  end
+
+  def last_swipe?(swipe)
+    swipe.party_player.movies.last["id"] == swipe.movie_id
   end
 end

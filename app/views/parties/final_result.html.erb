@@ -1,0 +1,9 @@
+<div class="container">
+  <h1>Final Result</h1>
+  <% if @is_unanimous %>
+    <h2>It's a match! 🎉</h2>
+  <% else %>
+    <h2>Most liked movie:</h2>
+  <% end %>
+  <h3><%= @winning_movie %></h3>
+</div>
