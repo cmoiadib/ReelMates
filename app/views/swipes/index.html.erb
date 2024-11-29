@@ -3,8 +3,8 @@
     <div class="swiper-wrapper" style="cursor: grab;">
 
       <% @party_player.movies.each do |movie| %>
-        <div data-movie-id="<%= movie["id"] %>" data-movie-tags="<%= movie["genre_ids"] %>" class="swiper-slide swiper-slide-visible swiper-slide-fully-visible swiper-slide-active" style="width: 300px; transform: translate3d(0px, 0px, 0px) rotateZ(0deg); opacity: 1;">
-          <%= image_tag "https://image.tmdb.org/t/p/w500#{movie["poster_path"]}", style: "width: 300px;" %>
+        <div data-movie-id="<%= movie["id"] %>" data-movie-tags="<%= movie["genre_ids"] %>" class="swiper-slide swiper-slide-visible swiper-slide-fully-visible swiper-slide-active" style="width: 100%; transform: translate3d(0px, 0px, 0px) rotateZ(0deg); opacity: 1;">
+          <%= image_tag "https://image.tmdb.org/t/p/w500#{movie["poster_path"]}", style: "width: 100%;" %>
           <div class="swiper-tinder-label swiper-tinder-label-yes" style="opacity: 0;">Like</div>
           <div class="swiper-tinder-label swiper-tinder-label-no" style="opacity: 0;">Nope</div>
         </div>
