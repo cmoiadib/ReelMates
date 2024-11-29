@@ -1,12 +1,20 @@
-<h1>Hi <%= current_or_guest_user.username %> !</h1>
+<div class="container d-flex justify-content-center align-items-top" style="min-height: 100vh;">
 
-<%= link_to "Create a party", new_party_path, class: "btn btn-primary" %>
+  <div class="row text-center">
+    <div class="col-12 mt-5">
+      <h3 class="mb-5">Hi <%= current_or_guest_user.username %>!</h3>
 
-<div class="party-join-form">
-  <%= form_with url: parties_path, method: :get do |f| %>
-    <%= f.text_field :party_code,
-                     placeholder: "Enter party code",
-                     class: "form-control" %>
-    <%= f.submit "Join party", class: "btn btn-primary" %>
-  <% end %>
+      <%= link_to "Create a party", new_party_path, class: "btn btn-outline-primary rounded-pill btn-shadow mb-4" %>
+
+      <div>
+        <%= form_with url: parties_path, method: :get do |f| %>
+          <%= f.text_field :party_code,
+                          placeholder: "Enter party code",
+                          class: "form-control rounded-pill mb-4" %>
+          <%= f.submit "Join party", class: "btn btn-outline-primary rounded-pill btn-shadow" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
 </div>
