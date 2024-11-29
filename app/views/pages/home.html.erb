@@ -1,19 +1,41 @@
-<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
-
-  <div class="row text-center">
+<div class="container-fluid d-flex justify-content-center align-items-center" style="min-height: 100vh; background: linear-gradient(135deg, #FF5F6D, #FFC371); color: white;">
+  <div class="row text-center w-100">
     <div class="col-12">
-      <h3>Choisissez un pseudo</h3>
-       <div class="input-group">
+
+      <h3 class="mb-4" style="font-weight: 700; letter-spacing: 1px; font-size: 2rem;">Choisissez un pseudo</h3>
+
+
+      <div class="input-group d-flex flex-column align-items-center">
         <%= simple_form_for current_or_guest_user do |f| %>
-          <%= f.input :username, label: false, placeholder: "pseudo", error: "Obligatoire" %>
-          <div class="input-group-append" button>
-            <%= f.submit "Continuer" %>
+          <%= f.input :username,
+            input_html: {
+              class: "form-control rounded-pill mb-4 bg-transparent text-white shadow",
+              placeholder: "Entrez votre pseudo"
+            },
+            label: false
+          %>
+          <%= f.submit "Continuer",
+            class: "btn btn-primary rounded-pill px-4 py-2 shadow mb-3 fw-bold"
+          %>
+        <% end %>
+      </div>
+
+
+      <div class="row justify-content-center mt-4">
+        <div class="col-6 mb-3">
+          <button class="btn btn-outline-light rounded-pill btn-shadow w-100 py-2 fw-bold">S'inscrire</button>
+        </div>
+        <div class="col-6">
+          <button class="btn btn-outline-light rounded-pill btn-shadow w-100 py-2 fw-bold">Se connecter</button>
         </div>
       </div>
-      <% end %>
-      <div class="row justify-content-center mt-4 border-top">
-        <button class="btn btn-primary mt-4">S'inscrire</button>
-        <button class="btn btn-outline mt-2">Se connecter</button>
-      </div>
+    </div>
   </div>
 </div>
+
+<style>
+  /* Style the placeholder text */
+  .form-control::placeholder {
+    color: white;
+  }
+</style>
