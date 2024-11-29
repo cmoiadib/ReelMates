@@ -1,0 +1,14 @@
+.button-orange {
+  background: #F66426;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 32px;
+}
+
+.border-top-black {
+  width: 50%; /* Adjust the width to be less than 100% (the width of the buttons) */
+  border-top: 1px solid rgba(0, 0, 0, 0.2); /* Black border with reduced opacity */
+  margin: 0 auto;
+}
