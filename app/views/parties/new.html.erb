@@ -2,28 +2,29 @@
   <div class="row text-center w-100">
     <div class="col-12">
 
-<h1>Party Settings</h1>
-<h3>Platforms</h3>
+  <h1>Party Settings</h1>
+  <h3>Platforms</h3>
   <%= simple_form_for @party do |f| %>
 
   <div data-controller="checkbox">
     <div class="mb-2">
-      <div class="pill-form w-50">
+      <div class="pill" style="margin-left: 10px;">
       <%= check_box_tag :check_all_platforms, 1, false,
-                  class: 'd-none',
-          data: {
-            checkbox_target: "all",
-            action: "checkbox#toggleAll"
+            class: 'd-none',
+            data: {
+              checkbox_target: "all",
+              action: "checkbox#toggleAll"
           }
       %>
-      <%= label_tag :check_all_platforms, "Select All Platforms", class: 'pill-form' %>
+      <%= label_tag :check_all_platforms, "Select All Platforms", class: 'rounded-pill' %>
       </div>
     </div>
-    <div class="d-flex flex-wrap w-100">
+    <div class="d-flex flex-wrap">
       <%= f.input :platform_setting,
                   collection: Party::PROVIDERS,
                 as: :check_boxes,
-                label_method: lambda { |provider| "<span class='btn btn-primary pill-form'>#{provider[:name]}</span>".html_safe },
+                label: '',
+                label_method: lambda { |provider| "<span class='checkbox-label'>#{provider[:name]}</span>".html_safe },
                 value_method: lambda { |provider| provider[:id] },
                 input_html: {
                   data: { checkbox_target: "checkbox" },
@@ -44,8 +45,9 @@
   <h3>Categories</h3>
   <div data-controller="checkbox">
     <div class="mb-2">
-        <div class="pill-form w-50">
+        <div class="pill-form">
         <%= check_box_tag :check_all, 1, false,
+            label: '',
             class: 'd-none',
             data: {
             checkbox_target: "all",
@@ -55,11 +57,12 @@
         <%= label_tag :check_all, "Select All Categories", class: 'pill-form'%>
       </div>
     </div>
-    <div class="d-flex flex-wrap w-100">
+    <div class="d-flex flex-wrap w-100 party_category_setting">
       <%= f.input :category_setting,
                   collection: Party::GENRES,
                 as: :check_boxes,
-                label_method: lambda { |genre| "<span class='btn pill-form'>#{genre[:name]}</span>".html_safe },
+                label: '',
+                label_method: lambda { |genre| "<span class='checkbox-label'>#{genre[:name]}</span>".html_safe },
                 value_method: lambda { |genre| genre[:id] },
                 input_html: {
                   data: { checkbox_target: "checkbox" },
