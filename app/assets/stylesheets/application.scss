@@ -13,4 +13,9 @@
 // Your CSS partials
 @import "components/index";
 @import "pages/index";
+@import "pages/index_parties";
 
+body {
+  font-family: "Archivo", sans-serif;
+  background-color: white;
+}

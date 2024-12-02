@@ -25,6 +25,8 @@ export default class extends Controller {
       }
     });
     console.log(this.swiper.visibleSlides);
+    this.previousCards = []; // Array to store previous cards
+    this.currentIndex = 0;
   }
 
   // showResults() {
@@ -45,9 +47,17 @@ export default class extends Controller {
   // }
 
   handleSwipe(event) {
-    const direction = event.detail.swipeDirection;
+    const { movieId, isLiked } = event.detail;
 
-    if (direction === 'right') {
+    // Store current card info before the swipe
+    this.previousCards.push({
+      movieId: movieId,
+      index: this.currentIndex
+    });
+
+    this.currentIndex++;
+
+    if (isLiked) {
       this.rightSwipe();
     } else {
       this.leftSwipe();
@@ -84,6 +94,36 @@ export default class extends Controller {
         window.location.href = `/parties/${this.partyIdValue}/result`;
       }
     })
+  }
+
+  undoSwipe(event) {
+    event.preventDefault();
+
+    if (this.previousCards.length > 0 && this.currentIndex > 0) {
+      const lastCard = this.previousCards.pop();
+      this.currentIndex--;
+
+      // Reset transform and opacity of the current slide
+      if (this.swiper.slides[this.currentIndex]) {
+        this.swiper.slides[this.currentIndex].style.transform = 'translate3d(0px, 0px, 0px) rotateZ(0deg)';
+        this.swiper.slides[this.currentIndex].style.opacity = '1';
+      }
+
+      // Go back to previous slide
+      this.swiper.slideTo(this.currentIndex, 300); // 300ms animation duration
+
+      // Delete the last swipe from the database
+      fetch(`/parties/${this.partyIdValue}/swipes/undo`, {
+        method: 'POST',
+        headers: {
+          'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          movie_id: lastCard.movieId
+        })
+      });
+    }
   }
 
   disconnect() {
