@@ -1,40 +1,43 @@
 <div class="container-fluid d-flex justify-content-center align-items-center" style="min-height: 100vh; color: white;">
-  <div class="row text-center w-100">
-    <div class="col-12">
-      <div class="mb-5">
+  <div class="row w-100">
+    <div class="col-12 col-md-8 offset-md-2 ps-4 pe-4">
+      <div class="text-center mb-5">
         <img src="<%= asset_path('logo.png') %>" alt="Logo" id="logo-home">
       </div>
 
-      <!-- Integrated Paragraph and Form -->
-      <div class="row justify-content-center w-100">
-        <div class="col-10 col-md-6"> <!-- Unified column for all elements -->
-          <p class="mb-4" style="letter-spacing: 1px; font-size: 0.65em; color: #000000;">
-            By tapping Create Account or Sign In, you agree to our Terms. Learn how we process your data in our Privacy Policy and Cookies Policy.
-          </p>
-          <%= simple_form_for current_or_guest_user do |f| %>
-            <%= f.input :username,
-              input_html: {
-                class: "form-control rounded-pill mb-4 bg-transparent shadow w-100",
-                placeholder: "Username"
-              },
-              label: false
-            %>
-            <%= f.submit "Continue as a guest",
-              class: "btn button-orange shadow mb-4 w-100 fw-bold"
-            %>
-          <% end %>
+      <div class="text-center mb-4">
+        <p class="mb-4" style="letter-spacing: 1px; font-size: 0.7em; color: #000000;">
+          By tapping Create Account or Sign In, you agree to our Terms. Learn how we process your data in our Privacy Policy and Cookies Policy.
+        </p>
+        <%= simple_form_for current_or_guest_user do |f| %>
+          <%= f.input :username,
+            input_html: {
+              class: "form-control rounded-pill mb-4 bg-transparent shadow w-100",
+              placeholder: "Username"
+            },
+            label: false
+          %>
+          <%= f.submit "CONTINUE AS A GUEST",
+            class: "btn button-orange shadow w-100 fw-bold"
+          %>
+        <% end %>
+      </div>
+
+      <div class="text-center">
+        <div class="or-divider">
+          <span class="line"></span>
+          <span class="or-text">OR</span>
+          <span class="line"></span>
         </div>
       </div>
 
-      <!-- Buttons Section -->
-      <div class="row justify-content-center w-100">
-        <div class="col-10 col-md-6 mb-4"> <!-- Same column structure -->
-          <button class="btn button-orange shadow w-100 fw-bold">Log in</button>
+        <div class="text-center mt-2">
+          <button class="btn button-orange shadow w-100 m-0 fw-bold mb-2">SIGN IN</button>
         </div>
-        <div class="col-10 col-md-6">
-          <button class="btn button-orange shadow w-100 fw-bold">Sign up</button>
+        <div class="text-center mt-2">
+          <button class="btn button-orange shadow w-100 m-0 fw-bold mb-2">CREATE ACCOUNT</button>
         </div>
-      </div>
+
     </div>
   </div>
 </div>
