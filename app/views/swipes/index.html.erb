@@ -2,14 +2,22 @@
      data-controller="party-subscription"
      data-party-subscription-party-id-value="<%= @party.id %>">
 
-  <div id="waiting-screen" class="d-none text-center">
+  <div id="waiting-screen" class="d-none text-center waiting-message">
     <h2>Waiting for other players to finish...</h2>
     <div class="spinner-border" role="status">
       <span class="visually-hidden">Loading...</span>
     </div>
   </div>
 
-  <div data-controller="swiper" data-action="swiper:tinderSwipe@document->swiper#handleSwipe" data-swiper-party-id-value="<%= @party.id %>" data-swiper-party-player-id-value="<%= @party_player.id %>" class="swiper swiper-tinder swiper-3d swiper-initialized swiper-horizontal swiper-watch-progress">
+  <div id="generating-screen" class="d-none text-center waiting-message">
+    <h2>Generating final movies...</h2>
+    <p>Based on everyone's preferences</p>
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <div id="swiper-container" data-controller="swiper" data-action="swiper:tinderSwipe@document->swiper#handleSwipe" data-swiper-party-id-value="<%= @party.id %>" data-swiper-party-player-id-value="<%= @party_player.id %>" class="swiper swiper-tinder swiper-3d swiper-initialized swiper-horizontal swiper-watch-progress">
     <div class="swiper-wrapper" style="cursor: grab;">
 
       <% @party_player.movies.each do |movie| %>
@@ -19,10 +27,6 @@
           <div class="swiper-tinder-label swiper-tinder-label-no" style="opacity: 0;">Nope</div>
         </div>
       <% end %>
-
-      <div class="swiper-slide demo-empty-slide" style="width: 348px; z-index: 1; transform: translate3d(-1740px, 0px, -200px) rotateZ(0deg); opacity: 1;">
-        There are no more recommendations
-      </div>
     </div>
   </div>
   <div class="swiper-tinder-buttons" style="bottom: 60px; display: flex; justify-content-center; align-items: center; padding: 0 20px;">
