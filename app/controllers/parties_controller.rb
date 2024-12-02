@@ -34,17 +34,19 @@ class PartiesController < ApplicationController
 
   def start
     @party = Party.find(params[:id])
-    @party.update(start: true)
-
-    ActionCable.server.broadcast(
-      "party_#{@party.id}",
-      {
-        action: 'game_started',
-        redirect_url: party_swipes_path(@party)
-      }
-    )
-
-    head :ok
+    if @party.update(start: true)
+      @party.assign_movies!
+      ActionCable.server.broadcast(
+        "party_#{@party.id}",
+        {
+          action: 'game_started',
+          redirect_url: party_swipes_path(@party)
+        }
+      )
+      redirect_to party_swipes_path(@party)
+    else
+      redirect_to party_path(@party), alert: "Couldn't start the game"
+    end
   end
 
   def create
