@@ -1,4 +1,6 @@
-<div class="container-fluid d-flex flex-column justify-content-around" style="min-height: 100vh; background: white; color: black; padding: 40px 0;">
+<div data-controller="party-subscription"
+     data-party-subscription-party-id-value="<%= @party.id %>"
+     class="container-fluid d-flex flex-column justify-content-around" style="min-height: 100vh; background: white; color: black; padding: 40px 0;">
   <% if @party.start == false %>
     <% if current_or_guest_user == @party.admin %>
       <!-- Top section -->
@@ -18,9 +20,11 @@
       <div class="text-center" id="start-game-button">
         <%= link_to "Start game",
             start_party_path(@party),
-            method: :put,
             class: "btn button-orange shadow fw-bold",
-            data: { turbo_method: :put } %>
+            data: {
+              action: "party-subscription#startGame",
+              turbo: false
+            } %>
       </div>
     <% else %>
       <!-- Non-admin view -->

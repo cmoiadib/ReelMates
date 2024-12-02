@@ -35,7 +35,16 @@ class PartiesController < ApplicationController
   def start
     @party = Party.find(params[:id])
     @party.update(start: true)
-    redirect_to party_swipes_path(@party)
+
+    ActionCable.server.broadcast(
+      "party_#{@party.id}",
+      {
+        action: 'game_started',
+        redirect_url: party_swipes_path(@party)
+      }
+    )
+
+    head :ok
   end
 
   def create
@@ -73,9 +82,9 @@ class PartiesController < ApplicationController
 
   def check_completion
     @party = Party.find(params[:id])
-    render json: { all_completed: @party.party_players.all?(&:done?) }
-  rescue => e
-    render json: { error: e.message }, status: :internal_server_error
+    all_completed = @party.party_players.all?(&:done?)
+
+    render json: { all_completed: all_completed }
   end
 
   private
