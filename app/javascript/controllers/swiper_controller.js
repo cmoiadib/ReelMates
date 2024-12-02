@@ -1,16 +1,12 @@
 import { Controller } from "@hotwired/stimulus"
 import EffectTinder from '../tinder-effect';
-
 export default class extends Controller {
   static values = {
     partyId: String,
     partyPlayerId: String
   }
-
-
   connect() {
     console.log("HHEEELLLOOO");
-
     this.swiper = new Swiper(this.element, {
       // pass EffectTinder module to modules
       modules: [EffectTinder],
@@ -28,10 +24,8 @@ export default class extends Controller {
     this.previousCards = []; // Array to store previous cards
     this.currentIndex = 0;
   }
-
   // showResults() {
   //   document.getElementById('loading-screen').style.display = 'block';
-
   //   fetch(`/parties/${this.partyIdValue}/swipes/result`, {
   //     method: 'GET',
   //     headers: {
@@ -45,25 +39,20 @@ export default class extends Controller {
   //     }, 5000);
   //   });
   // }
-
   handleSwipe(event) {
     const { movieId, isLiked } = event.detail;
-
     // Store current card info before the swipe
     this.previousCards.push({
       movieId: movieId,
       index: this.currentIndex
     });
-
     this.currentIndex++;
-
     if (isLiked) {
       this.rightSwipe();
     } else {
       this.leftSwipe();
     }
   }
-
   rightSwipe() {
     fetch(`/parties/${this.partyIdValue}/swipes`, {
       headers: {
@@ -79,7 +68,6 @@ export default class extends Controller {
         }
       })
   }
-
   leftSwipe() {
     fetch(`/parties/${this.partyIdValue}/swipes`, {
       headers: {
@@ -95,23 +83,18 @@ export default class extends Controller {
       }
     })
   }
-
   undoSwipe(event) {
     event.preventDefault();
-
     if (this.previousCards.length > 0 && this.currentIndex > 0) {
       const lastCard = this.previousCards.pop();
       this.currentIndex--;
-
       // Reset transform and opacity of the current slide
       if (this.swiper.slides[this.currentIndex]) {
         this.swiper.slides[this.currentIndex].style.transform = 'translate3d(0px, 0px, 0px) rotateZ(0deg)';
         this.swiper.slides[this.currentIndex].style.opacity = '1';
       }
-
       // Go back to previous slide
       this.swiper.slideTo(this.currentIndex, 300); // 300ms animation duration
-
       // Delete the last swipe from the database
       fetch(`/parties/${this.partyIdValue}/swipes/undo`, {
         method: 'POST',
@@ -125,7 +108,6 @@ export default class extends Controller {
       });
     }
   }
-
   disconnect() {
     this.swiper.destroy(true, true);
   }
