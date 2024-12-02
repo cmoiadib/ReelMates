@@ -11,6 +11,16 @@
         </button>
       </div>
     </div>
+  
+  
+     <% if @party.start == true %>
+      <div class="text-center">
+        <h2>Party already started!</h2>
+        <h2>👾👾👾</h2>
+       </div>
+     <% end %>
+  
+    <br>
 
     <%= turbo_stream_from "party_#{@party.id}" %>
 
