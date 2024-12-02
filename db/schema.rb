@@ -39,7 +39,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_28_163358) do
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.string "movies", default: [], array: true
-    t.jsonb "final_movies", default: [], array: true
+    t.jsonb "final_movies", default: [], null: false
     t.index ["user_id"], name: "index_parties_on_user_id"
   end
 
