@@ -4,13 +4,12 @@
   width: 375px !important;
 }
 
-#check_all {
-  width: 300px;
-}
+// #check_all {
+//   width: 300px;
+// }
 
 .checkbox-label {
-  display: block; // Ensure it behaves as a block element
-  margin: 2px -4px; // Apply vertical margins
+  display: flex;
   background-color: #fe9f76;
   color: white;
   padding: 4px 8px;

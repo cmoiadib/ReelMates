@@ -12,7 +12,7 @@ class Party < ApplicationRecord
   PROVIDERS = [
     { name: "Netflix", id: "8" },
     { name: "Prime", id: "119" },
-    { name: "Apple TV+", id: "350" },
+    { name: "AppleTV+", id: "350" },
     { name: "Disney+", id: "337" }
   ]
 
