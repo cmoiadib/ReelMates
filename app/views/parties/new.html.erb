@@ -59,36 +59,38 @@
       <% end %>
 
       <script>
-        document.addEventListener("DOMContentLoaded", () => {
+        document.addEventListener("turbo:load", () => {
         const slider = document.getElementById("year-slider");
         const startYearDisplay = document.getElementById("start-year-display");
         const endYearDisplay = document.getElementById("end-year-display");
         const startYearInput = document.getElementById("start_year_input");
         const endYearInput = document.getElementById("end_year_input");
 
-        noUiSlider.create(slider, {
-          start: [1920, 2024],
-          connect: true,
-          range: {
-            min: 1920,
-            max: 2024
-          },
-          step: 1,
-          tooltips: [true, true],
-          format: {
-            to: value => Math.round(value),
-            from: value => Math.round(value)
-          }
-        });
+        if (slider) {
+          noUiSlider.create(slider, {
+            start: [1920, 2024],
+            connect: true,
+            range: {
+              min: 1920,
+              max: 2024
+            },
+            step: 1,
+            tooltips: [true, true],
+            format: {
+              to: value => Math.round(value),
+              from: value => Math.round(value)
+            }
+          });
 
-        slider.noUiSlider.on("update", (values) => {
-          const [start, end] = values.map(value => Math.round(value));
-          startYearDisplay.textContent = start;
-          endYearDisplay.textContent = end;
+          slider.noUiSlider.on("update", (values) => {
+            const [start, end] = values.map(value => Math.round(value));
+            startYearDisplay.textContent = start;
+            endYearDisplay.textContent = end;
 
-          startYearInput.value = start;
-          endYearInput.value = end;
-        });
+            startYearInput.value = start;
+            endYearInput.value = end;
+          });
+        }
       });
       </script>
     </div>
