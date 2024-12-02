@@ -11,6 +11,18 @@ class PartiesController < ApplicationController
       if party
         if !party.start?
           @party_player = PartyPlayer.create(user: current_or_guest_user, party: party)
+          Turbo::StreamsChannel.broadcast_update_to(
+            "party_#{party.id}",
+            target: "players_list",
+            partial: "parties/players_list",
+            locals: { party: party }
+          )
+          Turbo::StreamsChannel.broadcast_update_to(
+            "party_#{party.id}",
+            target: "players_count",
+            partial: "parties/players_count",
+            locals: { party: party }
+          )
           redirect_to party_path(party)
         else
           flash.now[:alert] = "Party already started"
@@ -71,6 +83,7 @@ class PartiesController < ApplicationController
 
   def result
     @party = Party.find(params[:id])
+    @party_player = @party.party_players.find_by(user: current_or_guest_user)
 
     # Initialize as empty array if nil
     @party.final_movies ||= []
@@ -92,6 +105,15 @@ class PartiesController < ApplicationController
   def check_completion
     @party = Party.find(params[:id])
     all_completed = @party.party_players.all?(&:done?)
+
+    if all_completed
+      ActionCable.server.broadcast(
+        "party_#{@party.id}",
+        {
+          action: 'all_completed'
+        }
+      )
+    end
 
     render json: { all_completed: all_completed }
   end
