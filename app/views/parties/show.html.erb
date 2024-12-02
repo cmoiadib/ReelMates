@@ -1,7 +1,7 @@
 <div class="container-fluid-show-parties d-flex flex-column justify-content-center"
      data-controller="party-subscription"
      data-party-subscription-party-id-value="<%= @party.id %>">
-  <% if @party.start == false && current_or_guest_user == @party.admin %>
+
     <!-- Top section -->
     <div class="text-center">
       <div class="mx-auto custom-box d-flex align-items-center justify-content-center">
@@ -11,22 +11,29 @@
         </button>
       </div>
     </div>
-    <!-- Middle section -->
-    <div class="count-players text-center">
-      <h3>Players</h3>
-      <h3 class="mt-3"><%= @party.party_players.count %></h3>
+  
+  
+     <% if @party.start == true %>
+      <div class="text-center">
+        <h2>Party already started!</h2>
+        <h2>👾👾👾</h2>
+       </div>
+     <% end %>
+  
+    <br>
+
+    <%= turbo_stream_from "party_#{@party.id}" %>
+
+    <!-- Players count -->
+    <div id="players_count">
+      <%= render "players_count", party: @party %>
     </div>
-    <!-- Players list moved here -->
-    <div class="players-list mt-3">
-        <% @party.party_players.each do |player| %>
-          <div class="player-item d-flex align-items-center justify-content-center gap-2 mb-2">
-            <%= image_tag "avatars/#{player.user.avatar}",
-                class: "avatar-img",
-                style: "width: 60px; height: 60px; border-radius: 50%; object-fit: cover;" %>
-            <span class="h4 mb-0"><%= player.user.username %></span>
-          </div>
-        <% end %>
+
+    <!-- Players list -->
+    <div id="players_list">
+      <%= render "players_list", party: @party %>
     </div>
+  <% if @party.start == false && current_or_guest_user == @party.admin %>
     <!-- Bottom section -->
     <div class="text-center" id="start-game-button">
       <%= button_to "Start game",
@@ -36,12 +43,6 @@
     </div>
     <div class="back-settings-container text-center">
       <%= link_to "Back", :back, class: "back-settings" %>
-    </div>
-  <% end %>
-  <% if @party.start == true %>
-    <div class="text-center">
-      <h2>Party already started!</h2>
-      <h2>👾👾👾</h2>
     </div>
   <% end %>
 </div>
