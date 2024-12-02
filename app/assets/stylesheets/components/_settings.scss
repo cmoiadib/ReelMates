@@ -1,0 +1,59 @@
+input[type="checkbox"].d-none {
+  display: none;
+}
+
+.text-left + div {
+  margin-top: 30px;
+}
+
+label.custom-checkbox {
+  display: inline-block;
+  background-color: rgba(246, 100, 38, 0.5);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-bottom: 5px;
+  transition: background-color 0.3s;
+}
+
+label.custom-checkbox .checkbox-label {
+  font-size: 14px;
+}
+
+input[type="checkbox"]:checked + label.custom-checkbox {
+  background-color: #F66426;
+}
+
+.d-flex.flex-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 5px;
+}
+
+#year-slider {
+  width: 80%;
+  margin: 20px auto;
+}
+
+#year-slider .noUi-connect {
+  background-color: #f66426 !important;
+}
+
+#year-slider .noUi-handle {
+  background-color: #fff;
+  border: 2px solid #f66426;
+  border-radius: 50%;
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+  top: -8px;
+  margin-top: 0;
+}
+
+#year-slider .noUi-handle:focus {
+  outline: none;
+  box-shadow: 0 0 4px #f66426;
+}

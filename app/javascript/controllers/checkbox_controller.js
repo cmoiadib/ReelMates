@@ -11,12 +11,11 @@ export default class extends Controller {
       });
     });
   }
-
-  toggleAll() {
-    const checked = this.allTarget.checked
-    this.checkboxTargets.forEach(checkbox => {
-      checkbox.classList.add('btn')
-      checkbox.checked = checked
-    })
-  }
+  // toggleAll() {
+  //   const checked = this.allTarget.checked;
+  //   this.checkboxTargets.forEach(checkbox => {
+  //     checkbox.checked = checked;
+  //     checkbox.parentElement.classList.toggle('selected', checked);
+  //   });
+  // }
 }
