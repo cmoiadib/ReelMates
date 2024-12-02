@@ -7,25 +7,23 @@
       <div class="text-left">
         <h4>Platforms</h4>
       </div>
+
       <%= simple_form_for @party do |f| %>
         <div class="d-flex flex-wrap">
-          <%= f.input :platform_setting,
-                      collection: Party::PROVIDERS,
-                      as: :check_boxes,
-                      label: '',
-                      label_method: lambda { |provider| "<span class='checkbox-label'>#{provider[:name]}</span>".html_safe },
-                      value_method: lambda { |provider| provider[:id] },
-                      input_html: {
-                        data: { checkbox_target: "checkbox" },
-                        multiple: true,
-                        class: 'd-none'
-                      },
-                      include_hidden: false %>
+          <% Party::PROVIDERS.each do |provider| %>
+            <div class="custom-checkbox-wrapper">
+              <%= check_box_tag 'party[platform_setting][]', provider[:id], false, id: "platform_#{provider[:id]}", class: 'd-none' %>
+              <label for="platform_<%= provider[:id] %>" class="custom-checkbox">
+                <span class="checkbox-label"><%= provider[:name] %></span>
+              </label>
+            </div>
+          <% end %>
         </div>
 
-        <div class="text-left">
+        <div class="text-left mt-3">
           <h4>Periods</h4>
         </div>
+
         <div>
           <%= f.input :start_year, input_html: { class: '' } %>
           <%= f.input :end_year, input_html: { class: '' } %>
