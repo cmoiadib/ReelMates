@@ -1,22 +1,36 @@
-<div class="container-fluid-show-parties d-flex flex-column justify-content-around">
+<div class="container-fluid-show-parties d-flex flex-column justify-content-center">
   <% if @party.start == false && current_or_guest_user == @party.admin %>
     <!-- Top section -->
     <div class="text-center">
-      <div class="mx-auto custom-box">
-        <h1><%= @party.party_code %></h1>
+      <div class="mx-auto custom-box d-flex align-items-center justify-content-center">
+        <h1 class="mb-0 ms-3"><%= @party.party_code %></h1>
+        <button id="shareButton" class="btn btn-share" data-controller="share" data-action="click->share#shareCode" data-share-code="<%= @party.party_code %>">
+          <i class="fa-solid fa-share-from-square fa-lg" style="color: #ffffff;"></i>
+        </button>
       </div>
     </div>
     <!-- Middle section -->
-    <div class="text-center">
+    <div class="count-players text-center">
       <h3>Players</h3>
-      <p class="h2 mt-3"><%= @party.party_players.count %></p>
+      <h3 class="mt-3"><%= @party.party_players.count %></h3>
+    </div>
+    <!-- Players list moved here -->
+    <div class="players-list mt-3">
+        <% @party.party_players.each do |player| %>
+          <div class="player-item d-flex align-items-center justify-content-center gap-2 mb-2">
+            <%= image_tag "avatars/#{player.user.avatar}",
+                class: "avatar-img",
+                style: "width: 60px; height: 60px; border-radius: 50%; object-fit: cover;" %>
+            <span class="h4 mb-0"><%= player.user.username %></span>
+          </div>
+        <% end %>
     </div>
     <!-- Bottom section -->
     <div class="text-center" id="start-game-button">
       <%= link_to "Start game",
           start_party_path(@party),
           method: :put,
-          class: "btn button-orange shadow fw-bold",
+          class: "btn button-orange-start shadow fw-bold",
           style: "width: 100%;",
           data: { turbo_method: :put } %>
     </div>
@@ -24,6 +38,7 @@
   <% if @party.start == true %>
     <div class="text-center">
       <h2>Party already started!</h2>
+      <h2>👾👾👾</h2>
     </div>
   <% end %>
 </div>

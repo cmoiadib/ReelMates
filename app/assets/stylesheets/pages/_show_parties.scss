@@ -6,15 +6,34 @@
 }
 
 .custom-box {
-  padding: 20px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  max-width: 300px;
   background-color: #F66426;
-  border-radius: 32px;
+  border: 2px solid black;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  width: 200px;
+  height: 80px;
+  border-radius: 16px;
   color: white;
-}
-.custom-box h1 {
-  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 100px;
+
+  h1 {
+    color: white;
+  }
+
+  .btn-share {
+    background: transparent;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    transition: transform 0.2s;
+
+    &:hover {
+      transform: scale(1.2);
+      color: black;
+    }
+  }
 }
 
 .btn-lg {
@@ -23,5 +42,34 @@
 }
 
 #start-game-button {
+  margin-bottom: 80px;
+}
+
+.players-list {
+  margin-bottom: 120px;
+  font-family: 'Archivo', sans-serif;
+  font-weight: bold;
+}
+
+.player-item h4 {
+  font-family: 'Archivo', sans-serif;
+  font-weight: bold;
+}
+
+.count-players {
   margin-bottom: 40px;
+}
+
+h3 {
+  font-size: 32px;
+}
+
+.button-orange-start {
+  background: #F66426;
+  color: white;
+  font-size: 24px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 32px;
+  font-family: "Archivo", sans-serif;
 }

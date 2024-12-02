@@ -3,6 +3,8 @@ class UsersController < ApplicationController
 
   def update
     if current_or_guest_user.update(user_params)
+      current_or_guest_user.avatar = params[:avatar]
+      current_or_guest_user.save
       redirect_to parties_path, notice: "Bravo"
     else
       render "pages/home", status: :unprocessable_entity

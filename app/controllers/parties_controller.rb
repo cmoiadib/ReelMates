@@ -43,7 +43,14 @@ class PartiesController < ApplicationController
     @party.start = false
     @party.admin = current_or_guest_user
     @party.party_code = rand(100000..999999)
+
+    current_or_guest_user.update(
+      username: params[:username],
+      avatar: params[:avatar]
+    )
+
     @party_player = PartyPlayer.create(user: current_or_guest_user, party: @party)
+
     if @party.save
       redirect_to party_path(@party), notice: 'Party was successfully created.'
     else
