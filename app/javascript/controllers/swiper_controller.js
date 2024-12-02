@@ -56,7 +56,6 @@ export default class extends Controller {
   }
   rightSwipe() {
     if (this.resultsValue) {
-      // Handle final movies swipes differently
       this.handleFinalSwipe(true);
       return;
     }
@@ -79,14 +78,15 @@ export default class extends Controller {
       .then(data => {
         if (data.last_swipe && !data.all_finished) {
           document.getElementById('waiting-screen').classList.remove('d-none');
+          document.getElementById('swiper-container').classList.add('d-none');
+          document.querySelector('.swiper-tinder-buttons').classList.add('d-none');
         } else if (data.all_finished) {
           window.location.href = data.redirect_url;
         }
-      })
+      });
   }
   leftSwipe() {
     if (this.resultsValue) {
-      // Handle final movies swipes differently
       this.handleFinalSwipe(false);
       return;
     }
@@ -109,10 +109,12 @@ export default class extends Controller {
       .then(data => {
         if (data.last_swipe && !data.all_finished) {
           document.getElementById('waiting-screen').classList.remove('d-none');
+          document.getElementById('swiper-container').classList.add('d-none');
+          document.querySelector('.swiper-tinder-buttons').classList.add('d-none');
         } else if (data.all_finished) {
           window.location.href = data.redirect_url;
         }
-      })
+      });
   }
   handleFinalSwipe(isLiked) {
     fetch(`/parties/${this.partyIdValue}/final_swipes`, {
