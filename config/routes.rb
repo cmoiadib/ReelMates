@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  mount ActionCable.server => '/cable'
   devise_for :users
   root to: "pages#home"
 
@@ -10,6 +11,7 @@ Rails.application.routes.draw do
       get :start
       get :result
       get :final_result
+      get :check_completion
     end
     resources :swipes, only: %i[index new create] do
       collection do

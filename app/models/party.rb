@@ -59,7 +59,7 @@ class Party < ApplicationRecord
 
       response = URI.open(url).read
       parsed_response = JSON.parse(response)
-      all_movies = all_movies.concat(parsed_response["results"])
+      all_movies.concat(parsed_response["results"])
     end
 
     party_players.each do |party_player|
@@ -67,7 +67,7 @@ class Party < ApplicationRecord
       party_player.update(movies: selected_movies)
     end
 
-    all_player_movies = party_players.map { |player| player.movies }.flatten.map { |movie| movie["id"] }.uniq
+    all_player_movies = party_players.map { |player| player.movies }.flatten.map { |movie| movie["id"] }
     update(movies: all_player_movies)
   end
 
@@ -76,6 +76,39 @@ class Party < ApplicationRecord
   end
 
   def movies_assigned?
+    movies.present?
+  end
 
+  def all_players_finished_swiping?
+    swipes.count >= movies.count
+  end
+
+  def assign_final_movies!
+    return [] unless all_players_finished_swiping?  # Return an empty array if conditions aren't met
+
+    tags_liked = swipes.where(is_liked: true).pluck(:tags).flatten
+    update(tags: tags_liked)
+    tags_count = tags_liked.tally
+    max_count = tags_count.values.max
+    tags_final = tags_count.select { |_key, value| value == max_count }.keys
+
+    all_movies = []
+
+    for i in 1..5
+      url = "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=fr-FR&watch_region=FR&page=#{i}"
+      url += "&with_watch_providers=#{platform_setting.join('|')}" if platform_setting.present?
+      url += "&with_genres=#{tags_final.join('|')}" if tags_final.present?
+      url += "&primary_release_date.gte=#{start_year}-01-01" if start_year.present?
+      url += "&primary_release_date.lte=#{end_year}-12-31" if end_year.present?
+      url += "&api_key=#{ENV['TMDB_API_KEY']}"
+
+      response = URI.open(url).read
+      parsed_response = JSON.parse(response)
+      all_movies.concat(parsed_response["results"])
+    end
+
+    final_movies = (all_movies.reject { |movie| movies.include?(movie["id"]) }).sample(3)
+    update(final_movies: final_movies)
+    final_movies
   end
 end

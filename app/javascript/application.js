@@ -3,3 +3,9 @@ import "@hotwired/turbo-rails"
 import "controllers"
 import "@popperjs/core"
 import "bootstrap"
+import "@rails/actioncable"
+import "./channels"
+
+import { createConsumer } from "@rails/actioncable"
+
+export default createConsumer()

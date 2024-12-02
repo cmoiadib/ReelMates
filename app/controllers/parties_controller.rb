@@ -35,7 +35,16 @@ class PartiesController < ApplicationController
   def start
     @party = Party.find(params[:id])
     @party.update(start: true)
-    redirect_to party_swipes_path(@party)
+
+    ActionCable.server.broadcast(
+      "party_#{@party.id}",
+      {
+        action: 'game_started',
+        redirect_url: party_swipes_path(@party)
+      }
+    )
+
+    head :ok
   end
 
   def create
@@ -53,40 +62,29 @@ class PartiesController < ApplicationController
 
   def result
     @party = Party.find(params[:id])
-    @movies_ids = @party.movies
-    @tags_liked = @party.swipes.where(is_liked: true).pluck(:tags).flatten
-    @party.update(tags: @tags_liked)
-    tags_count = @tags_liked.tally
-    max_count = tags_count.values.max
-    @tags_final = tags_count.select { |_key, value| value == max_count }.keys
 
-    @providers = @party.platform_setting
-    @start_year = @party.start_year
-    @end_year = @party.end_year
+    # Initialize as empty array if nil
+    @party.final_movies ||= []
 
-    all_movies = []
-
-    for i in 1..5
-      @url = "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=fr-FR&watch_region=FR&page=#{i}"
-      @url += "&with_watch_providers=#{@providers.join('|')}" if @providers.present?
-      @url += "&with_genres=#{@tags_final.join('|')}" if @tags_final.present?
-      @url += "&primary_release_date.gte=#{@start_year}-01-01" if @start_year.present?
-      @url += "&primary_release_date.lte=#{@end_year}-12-31" if @end_year.present?
-      @url += "&api_key=#{ENV['TMDB_API_KEY']}"
-
-      response = URI.open(@url).read
-      parsed_response = JSON.parse(response)
-      @all_movies = all_movies.concat(parsed_response["results"])
+    if @party.final_movies.empty?
+      assigned_movies = @party.assign_final_movies!
+      @party.update!(final_movies: assigned_movies || [])
     end
 
-    @final_movies = (@all_movies.reject { |movie| @movies_ids.include?(movie["id"]) }).sample(3)
-    @party.update(final_movies: @final_movies)
+    @final_movies = @party.final_movies
   end
 
   def final_result
     @party = Party.find(params[:id])
     @party_player = PartyPlayer.find_by(user: current_or_guest_user, party: @party)
     @winning_movie = find_winning_movie
+  end
+
+  def check_completion
+    @party = Party.find(params[:id])
+    all_completed = @party.party_players.all?(&:done?)
+
+    render json: { all_completed: all_completed }
   end
 
   private
