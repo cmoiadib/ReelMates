@@ -1,15 +1,15 @@
 <div data-controller="checkbox" class="container-fluid d-flex justify-content-center align-items-center" style="min-height: 100vh; color: white;">
   <div class="row w-100">
     <div class="col-12 col-md-8 offset-md-2 ps-4 pe-4">
-      <div class="text-center mb-4">
-        <h4>Party Settings</h4>
+      <div class="text-center mb-5">
+        <h4 style="font-size: 32px; font-weight: bold;">Party Settings</h4>
       </div>
       <div class="text-left">
         <h4>Platforms</h4>
       </div>
 
       <%= simple_form_for @party do |f| %>
-        <div class="d-flex flex-wrap">
+        <div class="d-flex flex-wrap mb-4">
           <% Party::PROVIDERS.each do |provider| %>
             <div class="custom-checkbox-wrapper">
               <%= check_box_tag 'party[platform_setting][]', provider[:id], false, id: "platform_#{provider[:id]}", class: 'd-none' %>
@@ -20,13 +20,21 @@
           <% end %>
         </div>
 
-        <div class="text-left mt-3">
+        <div class="text-left mt-4">
           <h4>Periods</h4>
         </div>
 
-        <div>
-          <%= f.input :start_year, input_html: { class: '' } %>
-          <%= f.input :end_year, input_html: { class: '' } %>
+        <div class="d-flex flex-column align-items-center mb-4">
+          <label for="year-slider">Select Year Range:</label>
+          <div id="year-slider" style="margin: 20px 0;"></div>
+          <div class="d-none" style="display: flex; justify-content: space-between; margin-top: 10px;">
+            <span id="start-year-display">1920</span>
+            <span id="end-year-display">2024</span>
+          </div>
+
+          <%= f.hidden_field :start_year, id: "start_year_input" %>
+          <%= f.hidden_field :end_year, id: "end_year_input" %>
+
         </div>
 
         <div class="text-left">
@@ -49,6 +57,40 @@
           <%= f.submit "CREATE", class: "btn button-orange shadow w-100 m-0 fw-bold" %>
         </div>
       <% end %>
+
+      <script>
+        document.addEventListener("DOMContentLoaded", () => {
+        const slider = document.getElementById("year-slider");
+        const startYearDisplay = document.getElementById("start-year-display");
+        const endYearDisplay = document.getElementById("end-year-display");
+        const startYearInput = document.getElementById("start_year_input");
+        const endYearInput = document.getElementById("end_year_input");
+
+        noUiSlider.create(slider, {
+          start: [1920, 2024],
+          connect: true,
+          range: {
+            min: 1920,
+            max: 2024
+          },
+          step: 1,
+          tooltips: [true, true],
+          format: {
+            to: value => Math.round(value),
+            from: value => Math.round(value)
+          }
+        });
+
+        slider.noUiSlider.on("update", (values) => {
+          const [start, end] = values.map(value => Math.round(value));
+          startYearDisplay.textContent = start;
+          endYearDisplay.textContent = end;
+
+          startYearInput.value = start;
+          endYearInput.value = end;
+        });
+      });
+      </script>
     </div>
   </div>
 </div>
