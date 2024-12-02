@@ -7,22 +7,16 @@ export default class extends Controller {
   }
 
   connect() {
-    console.log("PartySubscription controller connected")
     this.channel = consumer.subscriptions.create(
       {
         channel: "PartyChannel",
         id: this.partyIdValue
       },
       {
-        connected: () => {
-          console.log("Connected to party channel", this.partyIdValue)
-        },
-        disconnected: () => {
-          console.log("Disconnected from party channel")
-        },
         received: (data) => {
           console.log("Received data:", data)
-          if (data.action === 'game_started') {
+          if (data.action === 'all_completed' || data.action === 'game_started') {
+            console.log("Redirecting to:", data.redirect_url)
             window.location.href = data.redirect_url
           }
         }
@@ -34,18 +28,5 @@ export default class extends Controller {
     if (this.channel) {
       this.channel.unsubscribe()
     }
-  }
-
-  startGame(event) {
-    event.preventDefault()
-    const url = event.currentTarget.getAttribute('href')
-
-    fetch(url, {
-      method: 'PUT',
-      headers: {
-        'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content,
-        'Accept': 'application/json'
-      }
-    })
   }
 }

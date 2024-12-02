@@ -27,7 +27,30 @@ class SwipesController < ApplicationController
     swipe = Swipe.new(swipe_params)
 
     if swipe.save
-      render json: { message: 'Swipe enregistré', last_swipe: last_swipe?(swipe) }, status: :ok
+      party = swipe.party_player.party
+      party_player = swipe.party_player
+      last_swipe = last_swipe?(swipe)
+      all_finished = party.all_players_finished_swiping?
+
+      if all_finished
+        assigned_movies = party.assign_final_movies!
+        party.update!(final_movies: assigned_movies || [])
+
+        ActionCable.server.broadcast(
+          "party_#{party.id}",
+          {
+            action: 'all_completed',
+            redirect_url: result_party_path(party)
+          }
+        )
+      end
+
+      render json: {
+        message: 'Swipe enregistré',
+        last_swipe: last_swipe,
+        all_finished: all_finished,
+        redirect_url: result_party_path(party)
+      }, status: :ok
     else
       render json: { error: 'Erreur lors de l\'enregistrement du swipe' }, status: :unprocessable_entity
     end
@@ -38,7 +61,7 @@ class SwipesController < ApplicationController
     @party_player = PartyPlayer.find_by(party: @party, user: current_or_guest_user)
 
     last_swipe = @party_player.swipes.last
-    
+
     if last_swipe&.destroy
       render json: { success: true }
     else

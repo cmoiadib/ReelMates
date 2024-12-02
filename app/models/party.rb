@@ -80,7 +80,9 @@ class Party < ApplicationRecord
   end
 
   def all_players_finished_swiping?
-    swipes.count >= movies.count
+    party_players.all? do |player|
+      player.swipes.count >= player.movies.count
+    end
   end
 
   def assign_final_movies!
