@@ -27,9 +27,9 @@ class SwipesController < ApplicationController
     swipe = Swipe.new(swipe_params)
 
     if swipe.save
-      render json: { message: 'Swipe enregistré', last_swipe: last_swipe?(swipe) }, status: :ok
+      flash[:notice] = "Swipe enregistré"
     else
-      render json: { error: 'Erreur lors de l\'enregistrement du swipe' }, status: :unprocessable_entity
+      flash[:alert] = "Erreur lors de l'enregistrement du swipe"
     end
   end
 
@@ -38,7 +38,7 @@ class SwipesController < ApplicationController
     @party_player = PartyPlayer.find_by(party: @party, user: current_or_guest_user)
 
     last_swipe = @party_player.swipes.last
-    
+
     if last_swipe&.destroy
       render json: { success: true }
     else
