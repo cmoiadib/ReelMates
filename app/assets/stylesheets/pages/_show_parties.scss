@@ -1,0 +1,84 @@
+.container-fluid-show-parties {
+  min-height: 100vh;
+  background: white;
+  color: black;
+  margin: 40px;
+}
+
+.custom-box {
+  background-color: #F66426;
+  border: 2px solid black;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  width: 200px;
+  height: 80px;
+  border-radius: 16px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 100px;
+
+  h1 {
+    color: white;
+  }
+
+  .btn-share {
+    background: transparent;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    transition: transform 0.2s;
+
+    &:hover {
+      transform: scale(1.2);
+      color: black;
+    }
+  }
+}
+
+.btn-lg {
+  padding: 12px 30px;
+  font-size: 1.2rem;
+}
+
+#start-game-button {
+  margin-bottom: 20px;
+}
+
+.players-list {
+  margin-bottom: 120px;
+  font-family: 'Archivo', sans-serif;
+  font-weight: bold;
+}
+
+.player-item h4 {
+  font-family: 'Archivo', sans-serif;
+  font-weight: bold;
+}
+
+.count-players {
+  margin-bottom: 40px;
+}
+
+h3 {
+  font-size: 32px;
+}
+
+.button-orange-start {
+  background: #F66426;
+  color: white;
+  font-size: 24px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 32px;
+  font-family: "Archivo", sans-serif;
+}
+
+.back-settings {
+  color: black;
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: none;
+  margin-top: 20px;
+  text-align: center;
+}
