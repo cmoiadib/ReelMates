@@ -11,15 +11,15 @@
         </button>
       </div>
     </div>
-  
-  
+
+
      <% if @party.start == true %>
       <div class="text-center">
         <h2>Party already started!</h2>
         <h2>👾👾👾</h2>
        </div>
      <% end %>
-  
+
     <br>
 
     <%= turbo_stream_from "party_#{@party.id}" %>
@@ -39,7 +39,8 @@
       <%= button_to "Start game",
           start_party_path(@party),
           method: :put,
-          class: "btn button-orange-start shadow fw-bold w-100" %>
+          class: "btn button-orange-start shadow fw-bold w-100",
+          data: { turbo: false } %>
     </div>
     <div class="back-settings-container text-center">
       <%= link_to "Back", :back, class: "back-settings" %>

@@ -3,7 +3,8 @@ import EffectTinder from '../tinder-effect';
 export default class extends Controller {
   static values = {
     partyId: String,
-    partyPlayerId: String
+    partyPlayerId: String,
+    results: { type: Boolean, default: false }
   }
   connect() {
     console.log("HHEEELLLOOO");
@@ -54,34 +55,85 @@ export default class extends Controller {
     }
   }
   rightSwipe() {
+    if (this.resultsValue) {
+      // Handle final movies swipes differently
+      this.handleFinalSwipe(true);
+      return;
+    }
+
     fetch(`/parties/${this.partyIdValue}/swipes`, {
       headers: {
         'Content-Type': 'application/json',
         'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
       },
       method: 'POST',
-      body: JSON.stringify({ swipe: { movie_id: this.swiper.visibleSlides[0].dataset.movieId, is_liked: true, party_player_id: this.partyPlayerIdValue, tags: JSON.parse(this.swiper.visibleSlides[0].dataset.movieTags || "[]") } })
+      body: JSON.stringify({
+        swipe: {
+          movie_id: this.swiper.visibleSlides[0].dataset.movieId,
+          is_liked: true,
+          party_player_id: this.partyPlayerIdValue,
+          tags: JSON.parse(this.swiper.visibleSlides[0].dataset.movieTags || "[]")
+        }
+      })
     }).then(response => response.json())
       .then(data => {
-        if (data.last_swipe) {
-          window.location.href = `/parties/${this.partyIdValue}/result`;
+        if (data.last_swipe && !data.all_finished) {
+          document.getElementById('waiting-screen').classList.remove('d-none');
+        } else if (data.all_finished) {
+          window.location.href = data.redirect_url;
         }
       })
   }
   leftSwipe() {
+    if (this.resultsValue) {
+      // Handle final movies swipes differently
+      this.handleFinalSwipe(false);
+      return;
+    }
+
     fetch(`/parties/${this.partyIdValue}/swipes`, {
       headers: {
         'Content-Type': 'application/json',
         'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
       },
       method: 'POST',
-      body: JSON.stringify({ swipe: { movie_id: this.swiper.visibleSlides[0].dataset.movieId, is_liked: false, party_player_id: this.partyPlayerIdValue, tags: JSON.parse(this.swiper.visibleSlides[0].dataset.movieTags || "[]") } })
+      body: JSON.stringify({
+        swipe: {
+          movie_id: this.swiper.visibleSlides[0].dataset.movieId,
+          is_liked: false,
+          party_player_id: this.partyPlayerIdValue,
+          tags: JSON.parse(this.swiper.visibleSlides[0].dataset.movieTags || "[]")
+        }
+      })
     }).then(response => response.json())
-    .then(data => {
-      if (data.last_swipe) {
-        window.location.href = `/parties/${this.partyIdValue}/result`;
-      }
-    })
+      .then(data => {
+        if (data.last_swipe && !data.all_finished) {
+          document.getElementById('waiting-screen').classList.remove('d-none');
+        } else if (data.all_finished) {
+          window.location.href = data.redirect_url;
+        }
+      })
+  }
+  handleFinalSwipe(isLiked) {
+    fetch(`/parties/${this.partyIdValue}/final_swipes`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+      },
+      method: 'POST',
+      body: JSON.stringify({
+        swipe: {
+          movie_id: this.swiper.visibleSlides[0].dataset.movieId,
+          is_liked: isLiked,
+          party_player_id: this.partyPlayerIdValue
+        }
+      })
+    }).then(response => response.json())
+      .then(data => {
+        if (data.all_completed) {
+          window.location.href = data.redirect_url;
+        }
+      });
   }
   undoSwipe(event) {
     event.preventDefault();

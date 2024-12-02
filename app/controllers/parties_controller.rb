@@ -48,6 +48,8 @@ class PartiesController < ApplicationController
     @party = Party.find(params[:id])
     if @party.update(start: true)
       @party.assign_movies!
+
+      # Broadcast to all players
       ActionCable.server.broadcast(
         "party_#{@party.id}",
         {
@@ -55,7 +57,9 @@ class PartiesController < ApplicationController
           redirect_url: party_swipes_path(@party)
         }
       )
-      redirect_to party_swipes_path(@party)
+
+      # Redirect admin
+      redirect_to party_swipes_path(@party), allow_other_host: true
     else
       redirect_to party_path(@party), alert: "Couldn't start the game"
     end
