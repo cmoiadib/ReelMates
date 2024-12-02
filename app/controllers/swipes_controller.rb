@@ -33,6 +33,19 @@ class SwipesController < ApplicationController
     end
   end
 
+  def undo
+    @party = Party.find(params[:party_id])
+    @party_player = PartyPlayer.find_by(party: @party, user: current_or_guest_user)
+
+    last_swipe = @party_player.swipes.last
+    
+    if last_swipe&.destroy
+      render json: { success: true }
+    else
+      render json: { success: false }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def swipe_params

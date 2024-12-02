@@ -1,0 +1,44 @@
+h4 {
+  color: black;
+  font-weight: bold;
+}
+
+p {
+  font-family: "Archivo", sans-serif;
+  font-size: 14px;
+  color: #999898
+}
+
+h5 {
+  font-size: 16px;
+  color: black;
+  font-weight: bold;
+}
+
+.container-fluid {
+  background-color: white;
+}
+
+.or-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 15px 0;
+}
+
+.or-divider .line {
+  flex: 1;
+  height: 1px;
+  background-color: #999898;
+  margin: 0 10px;
+}
+
+.or-divider .or-text {
+  color: #999898;
+  font-size: 14px;
+}
+
+.form-control.rounded-pill {
+  color: #999898;
+  font-family: "Archivo", sans-serif;
+}

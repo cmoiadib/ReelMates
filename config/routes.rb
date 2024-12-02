@@ -11,6 +11,10 @@ Rails.application.routes.draw do
       get :result
       get :final_result
     end
-    resources :swipes, only: %i[index new create]
+    resources :swipes, only: %i[index new create] do
+      collection do
+        post :undo
+      end
+    end
   end
 end
