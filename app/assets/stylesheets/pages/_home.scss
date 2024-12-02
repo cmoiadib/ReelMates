@@ -1,18 +1,4 @@
-.party_category_setting {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  width: 375px !important;
-}
-
-#check_all {
-  width: 300px;
-}
-
-.checkbox-label {
-  display: block; // Ensure it behaves as a block element
-  margin: 2px -4px; // Apply vertical margins
-  background-color: #fe9f76;
-  color: white;
-  padding: 4px 8px;
-  border-radius: 32px;
+input.form-control::placeholder {
+  color: black;
+  opacity: 0.2;
 }
