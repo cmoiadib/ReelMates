@@ -7,8 +7,8 @@ Rails.application.routes.draw do
   resources :users, only: [:update]
   resources :parties, only: %i[index show new create] do
     member do
-      put :start
       get :start
+      put :start
       get :result
       get :final_result
       get :check_completion
