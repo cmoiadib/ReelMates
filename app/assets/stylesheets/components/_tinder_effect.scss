@@ -11,12 +11,12 @@
   width: 100vw;
   height: 100vh;
   position: fixed;
-  top: 0;
+  top: 50px;
   left: 0;
   .swiper-slide {
     overflow: hidden;
     width: 100vw !important;
-    height: 100vh !important;
+    height: 70vh !important;
     img {
       width: 100%;
       height: 100%;
@@ -52,7 +52,7 @@
 .swiper-tinder-button {
   position: fixed;
   cursor: pointer;
-  bottom: 32px;
+  bottom: 150px;
   width: var(--swiper-tinder-button-size);
   height: var(--swiper-tinder-button-size);
   border: 1px solid;
@@ -108,6 +108,6 @@
 }
 @supports (padding: env(safe-area-inset-bottom)) {
   .swiper-tinder-button {
-    bottom: calc(32px + env(safe-area-inset-bottom));
+    bottom: calc(120px + env(safe-area-inset-bottom));
   }
 }
