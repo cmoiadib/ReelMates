@@ -1,6 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
 import EffectTinder from '../tinder-effect';
-
 export default class extends Controller {
   static values = {
     partyId: String,
