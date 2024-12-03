@@ -113,6 +113,17 @@ class PartiesController < ApplicationController
       else
         @movies_liked.max_by { |_movie_id, count| count }&.first
       end
+
+    # Make API call to get movie videos if we have a winning movie
+    if @winning_movie
+      api_key = ENV["TMDB_API_KEY"]
+      url = "https://api.themoviedb.org/3/movie/#{@winning_movie}/videos?language=en-US&api_key=#{api_key}"
+      response = URI.open(url).read
+      videos_data = JSON.parse(response)
+
+      # Find the first trailer or fallback to first video
+      @video = videos_data["results"].find { |v| v["type"] == "Trailer" } || videos_data["results"].first
+    end
   end
 
   def check_completion
@@ -139,7 +150,7 @@ class PartiesController < ApplicationController
 
   def fetch_categories
     api_key = ENV["TMDB_API_KEY"]
-    url = "https://api.themoviedb.org/3/genre/movie/list?language=fr&api_key=#{api_key}"
+    url = "https://api.themoviedb.org/3/genre/movie/list?language=en-US&api_key=#{api_key}"
     response = URI.open(url).read
     @categories = JSON.parse(response)["genres"]
   end
