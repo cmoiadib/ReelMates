@@ -11,8 +11,8 @@
 
   <div data-party-subscription-target="content">
     <!-- Top section -->
-    <div class="text-center">
-      <div class="mx-auto custom-box d-flex align-items-center justify-content-center">
+    <div class="text-center mb-4">
+      <div class="custom-box mx-auto d-flex align-items-center justify-content-center">
         <h1 class="mb-0 ms-3"><%= @party.party_code %></h1>
         <button id="shareButton" class="btn btn-share" data-controller="share" data-action="click->share#shareCode" data-share-code="<%= @party.party_code %>">
           <i class="fa-solid fa-share-from-square fa-lg" style="color: #FFFFFF;"></i>
@@ -33,15 +33,15 @@
 
     <% if @party.start == false && current_or_guest_user == @party.admin %>
       <div class="text-center" id="start-game-button">
-        <%= button_to "Start game",
+        <%= button_to "START GAME",
             start_party_path(@party),
             method: :put,
-            class: "btn button-orange-start shadow fw-bold w-100",
+            class: "btn button-orange-start shadow fw-bold w-100 mb-3",
             data: {
               turbo: false,
               action: "click->party-subscription#showLoading"
             } %>
-        <%= link_to "BACK", :back, class: "text-center text-black text-decoration-none w-100 m-0 fw-bold" %>
+        <%= link_to "BACK", :back, class: "text-center text-black text-decoration-none w-100 mt-3 fw-bold" %>
       </div>
     <% end %>
   </div>
