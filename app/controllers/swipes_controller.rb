@@ -69,6 +69,30 @@ class SwipesController < ApplicationController
     end
   end
 
+  def final
+    swipe = Swipe.new(swipe_params)
+
+    if swipe.save
+      party = swipe.party_player.party
+      all_completed = party.all_players_finished_final_swipes?
+
+      if all_completed
+        render json: {
+          message: 'Final swipe recorded',
+          all_completed: true,
+          redirect_url: final_result_party_path(party)
+        }, status: :ok
+      else
+        render json: {
+          message: 'Final swipe recorded',
+          all_completed: false
+        }, status: :ok
+      end
+    else
+      render json: { error: 'Error recording final swipe' }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def swipe_params

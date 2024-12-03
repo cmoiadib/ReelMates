@@ -434,7 +434,7 @@ export default class extends Controller {
       });
   }
   handleFinalSwipe(isLiked) {
-    fetch(`/parties/${this.partyIdValue}/swipes`, {
+    fetch(`/parties/${this.partyIdValue}/swipes/final`, {
       headers: {
         'Content-Type': 'application/json',
         'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
@@ -450,7 +450,24 @@ export default class extends Controller {
     }).then(response => response.json())
       .then(data => {
         if (data.all_completed) {
-          window.location.href = data.redirect_url;
+          const generatingScreen = document.getElementById('generating-screen');
+          const swiperContainer = document.getElementById('swiper-container');
+          const tinderButtons = document.querySelector('.swiper-tinder-buttons');
+
+          if (generatingScreen) {
+            generatingScreen.classList.remove('d-none');
+          }
+          if (swiperContainer) {
+            swiperContainer.classList.add('d-none');
+          }
+          if (tinderButtons) {
+            tinderButtons.classList.add('d-none');
+          }
+
+          // Wait 2 seconds before redirecting to final_result
+          setTimeout(() => {
+            window.location.href = `/parties/${this.partyIdValue}/final_result`;
+          }, 2000);
         }
       });
   }
