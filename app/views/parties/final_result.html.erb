@@ -1,26 +1,26 @@
-<div class="container">
-  <h1>Final Result</h1>
-
-  <% winning_movie_data = @party.final_movies.find { |m| m['id'] == @winning_movie } %>
-
-  <% if @movies_liked[@winning_movie] == @party.party_players.count %>
-    <div class="text-center" data-controller="match-animation">
-      <h2>It's a match! 🎉</h2>
+<div class="container-fluid d-flex justify-content-center align-items-center" style="min-height: 100vh; color: white;">
+  <div class="row w-100">
+    <div class="col-12 col-md-8 offset-md-2 ps-4 pe-4">
+      <% winning_movie_data = @party.final_movies.find { |m| m['id'] == @winning_movie } %>
+      <% if @movies_liked[@winning_movie] == @party.party_players.count %>
+        <div class="text-center" data-controller="match-animation">
+          <h2>It's a match! 🎉</h2>
+        </div>
+      <% else %>
+        <div class="text-center">
+          <h2>Most liked movie</h2>
+          <p><%= @movies_liked[@winning_movie] %> out of <%= @party.party_players.count %> players liked this movie</p>
+        </div>
+      <% end %>
+      <% if winning_movie_data %>
+        <div class="movie-result text-center mt-4">
+          <%= image_tag "https://image.tmdb.org/t/p/w500#{winning_movie_data['poster_path']}",
+              class: "movie-poster mb-3",
+              style: "max-width: 300px; border-radius: 8px;" %>
+          <h3><%= winning_movie_data['title'] %></h3>
+          <p class="movie-overview"><%= winning_movie_data['overview'] %></p>
+        </div>
+      <% end %>
     </div>
-  <% else %>
-    <div class="text-center">
-      <h2>Most liked movie</h2>
-      <p><%= @movies_liked[@winning_movie] %> out of <%= @party.party_players.count %> players liked this movie</p>
-    </div>
-  <% end %>
-
-  <% if winning_movie_data %>
-    <div class="movie-result text-center mt-4">
-      <%= image_tag "https://image.tmdb.org/t/p/w500#{winning_movie_data['poster_path']}",
-          class: "movie-poster mb-3",
-          style: "max-width: 300px; border-radius: 8px;" %>
-      <h3><%= winning_movie_data['title'] %></h3>
-      <p class="movie-overview"><%= winning_movie_data['overview'] %></p>
-    </div>
-  <% end %>
+  </div>
 </div>
