@@ -1,4 +1,6 @@
-import consumer from "./consumer"
+import { createConsumer } from "@rails/actioncable"
+
+const consumer = createConsumer()
 
 consumer.subscriptions.create("PartyChannel", {
   connected() {
