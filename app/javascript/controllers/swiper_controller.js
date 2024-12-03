@@ -86,7 +86,15 @@ export default class extends Controller {
           document.getElementById('swiper-container').classList.add('d-none');
           document.querySelector('.swiper-tinder-buttons').classList.add('d-none');
         } else if (data.all_finished) {
-          window.location.href = data.redirect_url;
+          // First hide the swiper container and buttons
+          document.getElementById('swiper-container').classList.add('d-none');
+          document.querySelector('.swiper-tinder-buttons').classList.add('d-none');
+          // Then show the generating screen
+          document.getElementById('generating-screen').classList.remove('d-none');
+          // Wait 2 seconds before redirecting
+          setTimeout(() => {
+            window.location.href = data.redirect_url;
+          }, 2000);
         }
       });
   }
@@ -117,7 +125,15 @@ export default class extends Controller {
           document.getElementById('swiper-container').classList.add('d-none');
           document.querySelector('.swiper-tinder-buttons').classList.add('d-none');
         } else if (data.all_finished) {
-          window.location.href = data.redirect_url;
+          // First hide the swiper container and buttons
+          document.getElementById('swiper-container').classList.add('d-none');
+          document.querySelector('.swiper-tinder-buttons').classList.add('d-none');
+          // Then show the generating screen
+          document.getElementById('generating-screen').classList.remove('d-none');
+          // Wait 2 seconds before redirecting
+          setTimeout(() => {
+            window.location.href = data.redirect_url;
+          }, 2000);
         }
       });
   }
