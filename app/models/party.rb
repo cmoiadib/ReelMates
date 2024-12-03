@@ -86,9 +86,13 @@ class Party < ApplicationRecord
   end
 
   def assign_final_movies!
-    return [] unless all_players_finished_swiping?  # Return an empty array if conditions aren't met
+    return [] unless all_players_finished_swiping?
 
+    # Get all liked swipes and their tags
     tags_liked = swipes.where(is_liked: true).pluck(:tags).flatten
+    return [] if tags_liked.empty?
+
+    # Update party tags and get most common ones
     update(tags: tags_liked)
     tags_count = tags_liked.tally
     max_count = tags_count.values.max
@@ -104,13 +108,21 @@ class Party < ApplicationRecord
       url += "&primary_release_date.lte=#{end_year}-12-31" if end_year.present?
       url += "&api_key=#{ENV['TMDB_API_KEY']}"
 
+      Rails.logger.debug "API URL: #{url}" # Better debugging
+
       response = URI.open(url).read
       parsed_response = JSON.parse(response)
       all_movies.concat(parsed_response["results"])
     end
 
+    # Filter out movies that were already shown and select 3 random ones
     final_movies = (all_movies.reject { |movie| movies.include?(movie["id"]) }).sample(3)
-    update(final_movies: final_movies)
-    final_movies
+
+    if final_movies.present?
+      update(final_movies: final_movies)
+      return final_movies
+    else
+      return []
+    end
   end
 end

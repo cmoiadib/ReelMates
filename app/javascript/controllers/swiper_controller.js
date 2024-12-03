@@ -42,13 +42,17 @@ export default class extends Controller {
   //   });
   // }
   handleSwipe(event) {
-    const { movieId, isLiked } = event.detail;
+    const swipeDirection = event.detail.swipeDirection;
+    const isLiked = swipeDirection === 'right';
+    const movieId = this.swiper.visibleSlides[0].dataset.movieId;
+
     // Store current card info before the swipe
     this.previousCards.push({
       movieId: movieId,
       index: this.currentIndex
     });
     this.currentIndex++;
+
     if (isLiked) {
       this.rightSwipe();
     } else {
