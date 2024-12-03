@@ -16,6 +16,7 @@ Rails.application.routes.draw do
     resources :swipes, only: %i[index new create] do
       collection do
         post :undo
+        post :final
       end
     end
   end

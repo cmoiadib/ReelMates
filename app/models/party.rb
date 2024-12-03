@@ -128,4 +128,10 @@ class Party < ApplicationRecord
       return final_movies
     end
   end
+
+  def all_players_finished_final_swipes?
+    party_players.all? do |player|
+      player.swipes.where(movie_id: final_movies.map { |m| m['id'] }).count >= final_movies.length
+    end
+  end
 end
