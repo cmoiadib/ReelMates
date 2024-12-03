@@ -4,7 +4,7 @@ import "controllers"
 import "@popperjs/core"
 import "bootstrap"
 import "@rails/actioncable"
-import "./channels"
+import "channels"
 
 import { createConsumer } from "@rails/actioncable"
 
