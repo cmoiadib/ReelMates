@@ -50,7 +50,7 @@ class Party < ApplicationRecord
     all_movies = []
 
     for i in 1..20
-      url = "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=fr-FR&watch_region=FR&page=#{i}"
+      url = "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-EN&watch_region=FR&page=#{i}"
       url += "&with_watch_providers=#{platform_setting.join('|')}" if platform_setting.present?
       url += "&with_genres=#{category_setting.join('|')}" if category_setting.present?
       url += "&primary_release_date.gte=#{start_year}-01-01" if start_year.present?
@@ -103,7 +103,7 @@ class Party < ApplicationRecord
     all_movies = []
 
     for i in 1..5
-      url = "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=fr-FR&watch_region=FR&page=#{i}"
+      url = "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&watch_region=FR&page=#{i}"
       url += "&with_watch_providers=#{platform_setting.join('|')}" if platform_setting.present?
       url += "&with_genres=#{tags_final.join('|')}" if tags_final.present?
       url += "&primary_release_date.gte=#{start_year}-01-01" if start_year.present?

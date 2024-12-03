@@ -13,3 +13,13 @@
   border-top: 1px solid rgba(0, 0, 0, 0.2); /* Black border with reduced opacity */
   margin: 0 auto;
 }
+
+.accordion-button:not(.collapsed) {
+  background-color: #F66426; /* Orange background */
+  color: white; /* Text color */
+  border-color: #F66426; /* Border color */
+}
+
+.accordion-button:not(.collapsed)::after {
+  filter: invert(1); /* Invert the color of the arrow to make it white */
+}
