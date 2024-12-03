@@ -434,7 +434,7 @@ export default class extends Controller {
       });
   }
   handleFinalSwipe(isLiked) {
-    fetch(`/parties/${this.partyIdValue}/final_swipes`, {
+    fetch(`/parties/${this.partyIdValue}/swipes`, {
       headers: {
         'Content-Type': 'application/json',
         'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
