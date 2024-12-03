@@ -1,3 +1,8 @@
+.settings {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
 input[type="checkbox"].d-none {
   display: none;
 }
@@ -18,9 +23,9 @@ label.custom-checkbox {
   transition: background-color 0.3s;
 }
 
-label.custom-checkbox .checkbox-label {
-  font-size: 14px;
-}
+// label.custom-checkbox .checkbox-label {
+//   font-size: 14px;
+// }
 
 input[type="checkbox"]:checked + label.custom-checkbox {
   background-color: #F66426;
@@ -56,4 +61,40 @@ input[type="checkbox"]:checked + label.custom-checkbox {
 #year-slider .noUi-handle:focus {
   outline: none;
   box-shadow: 0 0 4px #f66426;
+}
+
+.checkbox-label {
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
+
+.check-icon {
+  display: none;  /* Hide by default */
+}
+
+.checkbox-input:checked + .checkbox-label .check-icon {
+  display: inline-block;  /* Show only when checked */
+}
+
+.custom-checkbox-wrapper {
+  position: relative;
+}
+
+.custom-checkbox {
+  cursor: pointer;
+  /* Add any additional styles you need */
+}
+
+.custom-checkbox .fa-check {
+  display: none; /* Hide check icon by default */
+}
+
+// .checkbox-label.checked {
+//   font-size: 11px;
+// }
+
+.checkbox-label.reduced-text {
+  font-size: 12px;
 }
