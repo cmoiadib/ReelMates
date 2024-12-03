@@ -1,9 +1,26 @@
 <div class="container">
   <h1>Final Result</h1>
-  <% if @is_unanimous %>
-    <h2>It's a match! 🎉</h2>
+
+  <% winning_movie_data = @party.final_movies.find { |m| m['id'] == @winning_movie } %>
+
+  <% if @movies_liked[@winning_movie] == @party.party_players.count %>
+    <div class="text-center">
+      <h2>It's a match! 🎉</h2>
+    </div>
   <% else %>
-    <h2>Most liked movie:</h2>
+    <div class="text-center">
+      <h2>Most liked movie</h2>
+      <p><%= @movies_liked[@winning_movie] %> out of <%= @party.party_players.count %> players liked this movie</p>
+    </div>
   <% end %>
-  <h3><%= @winning_movie %></h3>
+
+  <% if winning_movie_data %>
+    <div class="movie-result text-center mt-4">
+      <%= image_tag "https://image.tmdb.org/t/p/w500#{winning_movie_data['poster_path']}",
+          class: "movie-poster mb-3",
+          style: "max-width: 300px; border-radius: 8px;" %>
+      <h3><%= winning_movie_data['title'] %></h3>
+      <p class="movie-overview"><%= winning_movie_data['overview'] %></p>
+    </div>
+  <% end %>
 </div>

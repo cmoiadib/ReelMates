@@ -86,6 +86,8 @@ class Party < ApplicationRecord
   end
 
   def assign_final_movies!
+    # Return existing final_movies if they are already set and not empty
+    return final_movies if final_movies.present?
     return [] unless all_players_finished_swiping?
 
     # Get all liked swipes and their tags
@@ -119,10 +121,11 @@ class Party < ApplicationRecord
     final_movies = (all_movies.reject { |movie| movies.include?(movie["id"]) }).sample(3)
 
     if final_movies.present?
+      return final_movies  # Return the existing final_movies
+    else
+      final_movies = (all_movies.reject { |movie| movies.include?(movie["id"]) }).sample(3)
       update(final_movies: final_movies)
       return final_movies
-    else
-      return []
     end
   end
 end
