@@ -5,24 +5,30 @@
   transform: translate(-50%, -50%);
   z-index: 1000;
   background: white;
-  padding: 2rem;
+  padding: 3rem;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   text-align: center;
+  width: 90%;
+  max-width: 500px;
 
   h2 {
     color: #333;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
   }
 
   p {
     color: #666;
-    margin-bottom: 1.5rem;
-    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    font-size: 1.3rem;
+    line-height: 1.5;
   }
 
   .spinner-border {
     color: #F66426;
+    width: 3rem;
+    height: 3rem;
   }
 }
 

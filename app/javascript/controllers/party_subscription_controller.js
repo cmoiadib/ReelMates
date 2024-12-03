@@ -2,26 +2,38 @@ import { Controller } from "@hotwired/stimulus"
 import consumer from "../channels/consumer"
 
 export default class extends Controller {
-  static values = {
-    partyId: String
-  }
+  static targets = ["content"]
+  static values = { partyId: String }
 
   connect() {
     this.channel = consumer.subscriptions.create(
+      { channel: "PartyChannel", id: this.partyIdValue },
       {
-        channel: "PartyChannel",
-        id: this.partyIdValue
-      },
-      {
-        received: (data) => {
-          console.log("Received data:", data)
-          if (data.action === 'all_completed' || data.action === 'game_started') {
-            console.log("Redirecting to:", data.redirect_url)
-            window.location.href = data.redirect_url
+        received: data => {
+          if (data.action === "game_started") {
+            document.querySelector('.loading-screen').classList.remove('d-none');
+            document.querySelector('[data-party-subscription-target="content"]').classList.add('d-none');
+            setTimeout(() => {
+              window.location.href = `/parties/${this.partyIdValue}/swipes`;
+            }, 2000);
+          } else if (data.action === "all_completed") {
+            document.getElementById('generating-screen').classList.remove('d-none');
+            document.getElementById('waiting-screen').classList.add('d-none');
+            document.getElementById('swiper-container').classList.add('d-none');
+            document.querySelector('.swiper-tinder-buttons').classList.add('d-none');
+
+            setTimeout(() => {
+              window.location.href = data.redirect_url;
+            }, 2000);
           }
         }
       }
     )
+  }
+
+  showLoading() {
+    document.querySelector('.loading-screen').classList.remove('d-none');
+    document.querySelector('[data-party-subscription-target="content"]').classList.add('d-none');
   }
 
   disconnect() {

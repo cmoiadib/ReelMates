@@ -47,21 +47,16 @@ class PartiesController < ApplicationController
   def start
     @party = Party.find(params[:id])
     if @party.update(start: true)
-      @party.assign_movies!
-
-      # Broadcast to all players
       ActionCable.server.broadcast(
         "party_#{@party.id}",
         {
-          action: 'game_started',
+          action: "game_started",
           redirect_url: party_swipes_path(@party)
         }
       )
-
-      # Redirect admin
-      redirect_to party_swipes_path(@party), allow_other_host: true
+      redirect_to party_swipes_path(@party)
     else
-      redirect_to party_path(@party), alert: "Couldn't start the game"
+      render :show, status: :unprocessable_entity
     end
   end
 
