@@ -27,6 +27,18 @@ export default class extends Controller {
             setTimeout(() => {
               window.location.href = data.redirect_url;
             }, 2000);
+          } else if (data.action === "final_completed") {
+            const generatingScreen = document.getElementById('generating-screen');
+            const swiperContainer = document.getElementById('swiper-container');
+            const tinderButtons = document.querySelector('.swiper-tinder-buttons');
+
+            if (generatingScreen) generatingScreen.classList.remove('d-none');
+            if (swiperContainer) swiperContainer.classList.add('d-none');
+            if (tinderButtons) tinderButtons.classList.add('d-none');
+
+            setTimeout(() => {
+              window.location.href = data.redirect_url;
+            }, 2000);
           }
         }
       }
