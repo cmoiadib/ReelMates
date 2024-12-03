@@ -1,8 +1,7 @@
-<div class="container-fluid-show-parties d-flex flex-column justify-content-center"
+<div class="container-fluid-show-parties d-flex flex-column justify-content-start" style="min-height: 100vh; color: white;"
      data-controller="party-subscription"
      data-party-subscription-party-id-value="<%= @party.id %>">
 
-    <!-- Top section -->
     <div class="text-center">
       <div class="mx-auto custom-box d-flex align-items-center justify-content-center">
         <h1 class="mb-0 ms-3"><%= @party.party_code %></h1>
@@ -24,17 +23,14 @@
 
     <%= turbo_stream_from "party_#{@party.id}" %>
 
-    <!-- Players count -->
     <div id="players_count">
       <%= render "players_count", party: @party %>
     </div>
 
-    <!-- Players list -->
     <div id="players_list">
       <%= render "players_list", party: @party %>
     </div>
   <% if @party.start == false && current_or_guest_user == @party.admin %>
-    <!-- Bottom section -->
     <div class="text-center" id="start-game-button">
       <%= button_to "Start game",
           start_party_path(@party),
@@ -43,7 +39,7 @@
           data: { turbo: false } %>
     </div>
     <div class="back-settings-container text-center">
-      <%= link_to "Back", :back, class: "back-settings" %>
+      <%= link_to "BACK", :back, class: "back-settings" %>
     </div>
   <% end %>
 </div>
