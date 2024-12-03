@@ -1,6 +1,6 @@
 .settings {
-  padding-left: 24px;
-  padding-right: 24px;
+  padding-left: 16px;
+  padding-right: 16px;
 }
 
 input[type="checkbox"].d-none {
@@ -8,15 +8,15 @@ input[type="checkbox"].d-none {
 }
 
 .text-left + div {
-  margin-top: 30px;
+  margin-top: 5px;
 }
 
 label.custom-checkbox {
   display: inline-block;
   background-color: rgba(246, 100, 38, 0.5);
   color: white;
-  padding: 4px 8px;
-  border-radius: 12px;
+  padding: 4px 15px;
+  border-radius: 32px;
   cursor: pointer;
   font-weight: bold;
   margin-bottom: 5px;
@@ -29,6 +29,7 @@ label.custom-checkbox {
 
 input[type="checkbox"]:checked + label.custom-checkbox {
   background-color: #F66426;
+  padding: 4px 8px;
 }
 
 .d-flex.flex-wrap {
@@ -41,6 +42,7 @@ input[type="checkbox"]:checked + label.custom-checkbox {
 #year-slider {
   width: 80%;
   margin: 20px auto;
+  font-size: 14px;
 }
 
 #year-slider .noUi-connect {
@@ -91,10 +93,7 @@ input[type="checkbox"]:checked + label.custom-checkbox {
   display: none; /* Hide check icon by default */
 }
 
-// .checkbox-label.checked {
-//   font-size: 11px;
-// }
-
-.checkbox-label.reduced-text {
-  font-size: 12px;
+.title-settings {
+  font-size: 20px;
+  font-weight: 700;
 }
