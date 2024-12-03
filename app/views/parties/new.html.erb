@@ -1,18 +1,18 @@
 <div data-controller="checkbox" class="container-fluid d-flex justify-content-center align-items-center" style="min-height: 100vh; color: white;">
   <div class="row w-100">
     <div class="settings col-12 col-md-8 offset-md-2">
-      <div class="text-center mb-5">
-        <h2 class="mb-4" style="font-weight: 700; font-size: 2rem;">Party Settings</h2>
+      <div class="text-center mb-4 mt-2">
+        <h2 class="mb-2" style="font-weight: 700; font-size: 2rem;">Party Settings</h2>
       </div>
       <div class="text-left">
-        <h4>Platforms</h4>
+        <h4 class="title-settings mb-3">Platforms</h4>
       </div>
 
       <%= simple_form_for @party do |f| %>
         <div class="d-flex flex-wrap mb-4">
           <% Party::PROVIDERS.each do |provider| %>
             <div class="custom-checkbox-wrapper">
-              <%= check_box_tag 'party[platform_setting][]', provider[:id], false, id: "platform_#{provider[:id]}", class: 'd-none' %>
+              <%= check_box_tag 'party[platform_setting][]', provider[:id], false, id: "platform_#{provider[:id]}", class: 'd-none', onclick: 'toggleCheckboxState(this)' %>
               <label for="platform_<%= provider[:id] %>" class="custom-checkbox">
                 <span class="checkbox-label"><%= provider[:name] %></span>
                 <i class="fa fa-check" aria-hidden="true"></i>
@@ -22,10 +22,10 @@
         </div>
 
         <div class="text-left mt-4">
-          <h4>Periods</h4>
+          <h4 class="title-settings mb-3">Periods</h4>
         </div>
 
-        <div class="d-flex flex-column align-items-center mb-4">
+        <div class="d-flex flex-column align-items-center mb-2">
           <label for="year-slider">Select Year Range:</label>
           <div id="year-slider" style="margin: 20px 0;"></div>
           <div class="d-none" style="display: flex; justify-content: space-between; margin-top: 10px;">
@@ -39,7 +39,7 @@
         </div>
 
         <div class="text-left">
-          <h4>Categories</h4>
+          <h4 class="title-settings mb-3 mt-2">Categories</h4>
         </div>
 
         <div class="d-flex flex-wrap">
@@ -55,7 +55,7 @@
         </div>
 
         <div class="d-flex justify-content-center flex-column align-items-center">
-          <%= f.submit "CREATE", class: "btn button-orange shadow w-100 m-0 fw-bold mt-5 mb-3" %>
+          <%= f.submit "CREATE", class: "btn button-orange shadow w-100 m-0 fw-bold mt-4 mb-3" %>
           <%= link_to "BACK", :back, class: "text-center text-black text-decoration-none w-100 m-0 fw-bold" %>
         </div>
       <% end %>
