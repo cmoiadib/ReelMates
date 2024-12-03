@@ -77,17 +77,19 @@ class SwipesController < ApplicationController
       all_completed = party.all_players_finished_final_swipes?
 
       if all_completed
-        render json: {
-          message: 'Final swipe recorded',
-          all_completed: true,
-          redirect_url: final_result_party_path(party)
-        }, status: :ok
-      else
-        render json: {
-          message: 'Final swipe recorded',
-          all_completed: false
-        }, status: :ok
+        ActionCable.server.broadcast(
+          "party_#{party.id}",
+          {
+            action: 'final_completed',
+            redirect_url: final_result_party_path(party)
+          }
+        )
       end
+
+      render json: {
+        message: 'Final swipe recorded',
+        all_completed: all_completed
+      }, status: :ok
     else
       render json: { error: 'Error recording final swipe' }, status: :unprocessable_entity
     end
