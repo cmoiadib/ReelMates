@@ -4,8 +4,6 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: "http://localhost:3000" }
   # Settings specified here will take precedence over those in config/application.rb.
 
-  config.hosts << "4dd0-82-66-171-245.ngrok-free.app"
-  config.hosts << "4dd0-82-66-171-245.ngrok-free.app"
 
   # In the development environment your application's code is reloaded any time
   # it changes. This slows down response time but is perfect for development
@@ -80,4 +78,6 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
+  config.hosts << /.*\.ngrok\.io$/
+  config.hosts << /.*\.ngrok-free\.app$/
 end
