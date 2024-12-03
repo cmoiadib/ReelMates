@@ -1,5 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
-import EffectTinder from '../tinder-effect';
+import EffectTinder from 'controllers/tinder-effect';
 
 export default class extends Controller {
   static values = {
