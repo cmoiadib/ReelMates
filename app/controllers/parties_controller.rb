@@ -98,6 +98,7 @@ class PartiesController < ApplicationController
     end
 
     @final_movies = @party.final_movies
+
   end
 
   def final_result
