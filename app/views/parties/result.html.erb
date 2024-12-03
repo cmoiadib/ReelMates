@@ -1,15 +1,22 @@
 <div id="app"
-     data-controller="party-subscription"
+     data-controller="party-subscription loading"
      data-party-subscription-party-id-value="<%= @party.id %>">
 
-  <div id="generating-screen" class="d-none text-center waiting-message">
+  <div id="waiting-screen" class="d-none text-center waiting-message" data-loading-target="loading">
+    <h2>Waiting for other players to finish...</h2>
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <div id="generating-screen" class="d-none text-center waiting-message" data-loading-target="generating">
     <h2>Generating final result...</h2>
     <div class="spinner-border" role="status">
       <span class="visually-hidden">Loading...</span>
     </div>
   </div>
 
-  <div data-controller="swiper" data-swiper-results-value="true" data-action="swiper:tinderSwipe@document->swiper#handleSwipe" data-swiper-party-id-value="<%= @party.id %>" data-swiper-party-player-id-value="<%= @party_player.id %>" class="swiper swiper-tinder swiper-3d swiper-initialized swiper-horizontal swiper-watch-progress">
+  <div data-loading-target="content" data-controller="swiper" data-swiper-results-value="true" data-action="swiper:tinderSwipe@document->swiper#handleSwipe" data-swiper-party-id-value="<%= @party.id %>" data-swiper-party-player-id-value="<%= @party_player.id %>" class="swiper swiper-tinder swiper-3d swiper-initialized swiper-horizontal swiper-watch-progress">
     <div class="swiper-wrapper" style="cursor: grab;">
 
       <% @party.final_movies.each do |movie| %>
@@ -21,7 +28,6 @@
       <% end %>
 
       <div class="swiper-slide demo-empty-slide" style="width: 348px; z-index: 1; transform: translate3d(-1740px, 0px, -200px) rotateZ(0deg); opacity: 1;">
-        There are no more recommendations
       </div>
     </div>
   </div>
