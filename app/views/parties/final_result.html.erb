@@ -4,7 +4,7 @@
   <% winning_movie_data = @party.final_movies.find { |m| m['id'] == @winning_movie } %>
 
   <% if @movies_liked[@winning_movie] == @party.party_players.count %>
-    <div class="text-center">
+    <div class="text-center" data-controller="match-animation">
       <h2>It's a match! 🎉</h2>
     </div>
   <% else %>
