@@ -84,22 +84,35 @@ class PartiesController < ApplicationController
     @party = Party.find(params[:id])
     @party_player = @party.party_players.find_by(user: current_or_guest_user)
 
-    # Initialize as empty array if nil
-    @party.final_movies ||= []
-
-    if @party.final_movies.empty?
+    if @party.final_movies.empty? && @party.all_players_finished_swiping?
       assigned_movies = @party.assign_final_movies!
-      @party.update!(final_movies: assigned_movies || [])
+      @party.update!(final_movies: assigned_movies)
     end
 
     @final_movies = @party.final_movies
-
   end
 
   def final_result
     @party = Party.find(params[:id])
     @party_player = PartyPlayer.find_by(user: current_or_guest_user, party: @party)
-    @winning_movie = find_winning_movie
+
+    # Get all liked swipes for the final movies
+    @movies_liked = @party.swipes
+      .where(is_liked: true)
+      .where(movie_id: @party.final_movies.map { |m| m['id'] })
+      .group(:movie_id)
+      .count
+
+    total_players = @party.party_players.count
+
+    # Determine the winning movie
+    unanimous_movies = @movies_liked.select { |_movie_id, likes| likes == total_players }.keys
+    @winning_movie =
+      if unanimous_movies.any?
+        unanimous_movies.first
+      else
+        @movies_liked.max_by { |_movie_id, count| count }&.first
+      end
   end
 
   def check_completion
@@ -132,11 +145,6 @@ class PartiesController < ApplicationController
   end
 
   def find_winning_movie
-    movies_liked = @party_player.swipes.where(is_liked: true).pluck(:movie_id)
-    likes_count = movies_liked.tally
-    total_players = @party.party_players.count
 
-    unanimous_movies = likes_count.select { |_movie_id, likes| likes == total_players }.keys
-    unanimous_movies.first || likes_count.max_by { |_movie_id, likes| likes }.first
   end
 end
