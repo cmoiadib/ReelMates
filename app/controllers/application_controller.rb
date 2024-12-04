@@ -14,6 +14,10 @@ class ApplicationController < ActionController::Base
     redirect_to parties_path if signed_in?
   end
 
+  def default_url_options
+    { host: ENV["DOMAIN"] || "localhost:3000" }
+  end
+
   private
 
   def set_action_cable_identifier
