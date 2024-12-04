@@ -46,6 +46,23 @@ class Party < ApplicationRecord
     super(Array(values))
   end
 
+  def fetch_movie_providers(movie_id)
+    begin
+      url = "https://api.themoviedb.org/3/movie/#{movie_id}/watch/providers?api_key=#{ENV['TMDB_API_KEY']}&watch_region=FR"
+      response = URI.open(url).read
+      parsed_response = JSON.parse(response)
+
+      # Get French providers from the flatrate category
+      providers = parsed_response.dig("results", "FR", "flatrate")
+      return [] unless providers
+
+      providers.map { |provider| provider["provider_id"].to_s }
+    rescue OpenURI::HTTPError, JSON::ParserError => e
+      Rails.logger.error "Error fetching providers for movie #{movie_id}: #{e.message}"
+      return []
+    end
+  end
+
   def assign_movies!
     all_movies = []
 
@@ -64,6 +81,12 @@ class Party < ApplicationRecord
 
     party_players.each do |party_player|
       selected_movies = all_movies.sample(20)
+
+      # Add provider information to each movie
+      selected_movies.each do |movie|
+        movie["available_providers"] = fetch_movie_providers(movie["id"])
+      end
+
       party_player.update(movies: selected_movies)
     end
 
@@ -110,8 +133,6 @@ class Party < ApplicationRecord
       url += "&primary_release_date.lte=#{end_year}-12-31" if end_year.present?
       url += "&api_key=#{ENV['TMDB_API_KEY']}"
 
-      Rails.logger.debug "API URL: #{url}" # Better debugging
-
       response = URI.open(url).read
       parsed_response = JSON.parse(response)
       all_movies.concat(parsed_response["results"])
@@ -120,13 +141,16 @@ class Party < ApplicationRecord
     # Filter out movies that were already shown and select 3 random ones
     final_movies = (all_movies.reject { |movie| movies.include?(movie["id"]) }).sample(3)
 
-    if final_movies.present?
-      return final_movies  # Return the existing final_movies
-    else
-      final_movies = (all_movies.reject { |movie| movies.include?(movie["id"]) }).sample(3)
-      update(final_movies: final_movies)
-      return final_movies
+    # Add provider information to final movies
+    final_movies.each do |movie|
+      movie["available_providers"] = fetch_movie_providers(movie["id"])
     end
+
+    if final_movies.present?
+      update(final_movies: final_movies)
+    end
+
+    final_movies
   end
 
   def all_players_finished_final_swipes?

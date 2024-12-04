@@ -30,8 +30,19 @@
             <div class="gradient-overlay"></div>
             <div class="movie-info">
               <h3><%= movie["title"] %></h3>
-              <p class="release-date">Released: <%= movie["release_date"].to_date.year rescue "N/A" %></p>
-              <p class="rating">Rating: <%= movie["vote_average"] %>/10</p>
+              <p class="provider">
+                <% if movie["available_providers"].present? %>
+                  Available on:
+                  <% Party::PROVIDERS
+                      .select { |p| movie["available_providers"].include?(p[:id]) }
+                      .each do |provider| %>
+                    <%= provider[:name] %><%= "," unless provider == Party::PROVIDERS.select { |p| movie["available_providers"].include?(p[:id]) }.last %>
+                  <% end %>
+                <% else %>
+                  Not available on selected platforms
+                <% end %>
+              </p>
+              <p class="rating">Rating: <%= movie["vote_average"].round(1) %>/10</p>
               <div class="overview">
                 <p><%= movie["overview"] %></p>
               </div>
