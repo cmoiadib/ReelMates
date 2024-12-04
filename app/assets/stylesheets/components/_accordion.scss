@@ -7,12 +7,15 @@
 }
 
 .accordion-button {
-  background-color: rgb(34, 34, 34)!important; /* Force black background */
-  color: white !important; /* Force white text */
+  background-color: rgb(34, 34, 34);/* Force black background */
+  color: white; /* Force white text */
 }
 
 .accordion-button:not(.collapsed)::after {
   filter: invert(1);
+  background-color: #F66426; /* Orange background */
+  color: white; /* Text color */
+  border-color: #F66426;
 }
 
 .accordion {
