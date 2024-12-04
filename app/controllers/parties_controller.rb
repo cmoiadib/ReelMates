@@ -71,12 +71,12 @@ class PartiesController < ApplicationController
       avatar: params[:avatar]
     )
 
-    @party_player = PartyPlayer.create(user: current_or_guest_user, party: @party)
-
     if @party.save
+      PartyPlayer.create(user: current_or_guest_user, party: @party)
       redirect_to party_path(@party), notice: 'Party was successfully created.'
     else
-      render :new
+      redirect_to new_party_path
+      flash[:alert] = "You must select at least one platform provider to start the party."
     end
   end
 

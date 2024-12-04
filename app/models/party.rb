@@ -38,6 +38,8 @@ class Party < ApplicationRecord
     { name: "Western", id: 37 }
   ]
 
+  validate :at_least_one_platform_selected
+
   def platform_setting=(values)
     super(Array(values))
   end
@@ -156,6 +158,14 @@ class Party < ApplicationRecord
   def all_players_finished_final_swipes?
     party_players.all? do |player|
       player.swipes.where(movie_id: final_movies.map { |m| m['id'] }).count >= final_movies.length
+    end
+  end
+
+  private
+
+  def at_least_one_platform_selected
+    if platform_setting.blank?
+      errors.add(:platform_setting, "must include at least one platform provider")
     end
   end
 end
