@@ -20,8 +20,8 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Do an horizontal flip when you move the mouse over the flip box container */
-.flip-card:hover .flip-card-inner {
+/* Add a class to handle the flip state */
+.flip-card-inner.is-flipped {
   transform: rotateY(180deg);
 }
 

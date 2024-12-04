@@ -19,7 +19,9 @@
       <% end %>
       <% if winning_movie_data %>
         <div class="d-flex justify-content-center align-items-center">
-          <div class="flip-card movie-result text-center mt-3 mb-4" style="box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);">
+          <div class="flip-card movie-result text-center mt-3 mb-4"
+               data-controller="flip-card"
+               style="box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);">
             <div class="flip-card-inner">
               <div class="flip-card-front">
                 <%= image_tag "https://image.tmdb.org/t/p/w500#{winning_movie_data['poster_path']}",
