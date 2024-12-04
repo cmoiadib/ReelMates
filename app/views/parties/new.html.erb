@@ -1,3 +1,6 @@
+<% content_for :meta_title, "ReelMates - Set Up Your Movie Party" %>
+<% content_for :meta_description, "Customize your movie party settings. Choose your platform, movie categories, and preferences to get personalized movie recommendations with friends." %>
+
 <div data-controller="checkbox" class="container-fluid d-flex justify-content-center align-items-center" style="min-height: 100vh; color: white;">
   <div class="row w-100">
     <div class="settings col-12 col-md-8 offset-md-2">
@@ -62,39 +65,40 @@
 
       <script>
         document.addEventListener("turbo:load", () => {
-        const slider = document.getElementById("year-slider");
-        const startYearDisplay = document.getElementById("start-year-display");
-        const endYearDisplay = document.getElementById("end-year-display");
-        const startYearInput = document.getElementById("start_year_input");
-        const endYearInput = document.getElementById("end_year_input");
+          const slider = document.getElementById("year-slider");
+          const startYearDisplay = document.getElementById("start-year-display");
+          const endYearDisplay = document.getElementById("end-year-display");
+          const startYearInput = document.getElementById("start_year_input");
+          const endYearInput = document.getElementById("end_year_input");
 
-        if (slider) {
-          noUiSlider.create(slider, {
-            start: [1920, 2024],
-            connect: true,
-            range: {
-              min: 1920,
-              max: 2024
-            },
-            step: 1,
-            tooltips: [true, true],
-            format: {
-              to: value => Math.round(value),
-              from: value => Math.round(value)
-            }
-          });
+          if (slider) {
+            noUiSlider.create(slider, {
+              start: [1920, 2024],
+              connect: true,
+              range: {
+                min: 1920,
+                max: 2024
+              },
+              step: 10,  // Updated step value to 10
+              tooltips: [true, true],
+              format: {
+                to: value => Math.round(value),
+                from: value => Math.round(value)
+              }
+            });
 
-          slider.noUiSlider.on("update", (values) => {
-            const [start, end] = values.map(value => Math.round(value));
-            startYearDisplay.textContent = start;
-            endYearDisplay.textContent = end;
+            slider.noUiSlider.on("update", (values) => {
+              const [start, end] = values.map(value => Math.round(value));
+              startYearDisplay.textContent = start;
+              endYearDisplay.textContent = end;
 
-            startYearInput.value = start;
-            endYearInput.value = end;
-          });
-        }
-      });
+              startYearInput.value = start;
+              endYearInput.value = end;
+            });
+          }
+        });
       </script>
+
       <script>
         function toggleCheckboxState(checkbox) {
           const label = checkbox.nextElementSibling;

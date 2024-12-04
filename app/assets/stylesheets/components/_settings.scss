@@ -56,7 +56,7 @@ input[type="checkbox"]:checked + label.custom-checkbox {
   cursor: pointer;
   width: 25px;
   height: 25px;
-  top: -8px;
+  top: -8px; /* Adjusted for better alignment with the connect bar */
   margin-top: 0;
 }
 

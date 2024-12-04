@@ -1,3 +1,6 @@
+<% content_for :meta_title, "ReelMates - Top 3 Movie Recommendations" %>
+<% content_for :meta_description, "Based on your swipes, here are the top 3 movie recommendations for your group. Choose the best option for your movie night and enjoy the show!" %>
+
 <div id="app"
      data-controller="party-subscription loading"
      data-party-subscription-party-id-value="<%= @party.id %>">
@@ -21,7 +24,18 @@
 
       <% @party.final_movies.each do |movie| %>
         <div data-movie-id="<%= movie["id"] %>" data-movie-tags="<%= movie["genre_ids"] %>" class="swiper-slide swiper-slide-visible swiper-slide-fully-visible swiper-slide-active" style="width: 100%; transform: translate3d(0px, 0px, 0px) rotateZ(0deg); opacity: 1;">
-          <%= image_tag "https://image.tmdb.org/t/p/w500#{movie["poster_path"]}", style: "width: 100%;" %>
+          <div class="movie-card">
+            <%= image_tag "https://image.tmdb.org/t/p/w500#{movie["poster_path"]}", style: "width: 100%;" %>
+            <div class="gradient-overlay"></div>
+            <div class="movie-info">
+              <h3><%= movie["title"] %></h3>
+              <p class="release-date">Released: <%= movie["release_date"].to_date.year rescue "N/A" %></p>
+              <p class="rating">Rating: <%= movie["vote_average"] %>/10</p>
+              <div class="overview">
+                <p><%= movie["overview"] %></p>
+              </div>
+            </div>
+          </div>
           <div class="swiper-tinder-label swiper-tinder-label-yes" style="opacity: 0;">Like</div>
           <div class="swiper-tinder-label swiper-tinder-label-no" style="opacity: 0;">Nope</div>
         </div>
