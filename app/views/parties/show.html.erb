@@ -6,8 +6,14 @@
      data-controller="party-subscription"
      data-party-subscription-party-id-value="<%= @party.id %>">
 
+
   <div class="loading-screen d-none text-center waiting-message">
+    <!-- Add the first GIF (swipe left) -->
+   <img id="swipe-gif" src="<%= asset_path('swipe-left.gif') %>" alt="Swipe"
+     style="max-width: 100px; max-height: 100px; margin-bottom: 10px; opacity: 1; visibility: visible; transition: opacity 1s ease, visibility 0s 1s;">
+
     <p>To better understand your tastes, we will show you 20 movies to swipe through.</p>
+
     <div class="spinner-border" role="status">
       <span class="visually-hidden">Loading...</span>
     </div>
@@ -50,3 +56,23 @@
     <% end %>
   </div>
 </div>
+<script>
+  setTimeout(function() {
+    const gifElement = document.getElementById('swipe-gif');
+
+    // Fade out the current GIF
+    gifElement.style.opacity = 0;
+
+    // Wait for the fade-out to complete
+    setTimeout(function() {
+      // Change the GIF source to the right swipe icon
+      gifElement.src = '<%= asset_path('swipe-right.gif') %>';
+
+      // Ensure the element is visible before starting the fade-in
+      gifElement.style.visibility = 'visible';
+
+      // Fade in the new GIF
+      gifElement.style.opacity = 1;
+    }, 1000); // 1 second fade-out time
+  }, 4000); // Change GIF after 5 seconds
+</script>
