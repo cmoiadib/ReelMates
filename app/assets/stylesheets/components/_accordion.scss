@@ -1,0 +1,38 @@
+.accordion-button:not(.collapsed) {
+  background-color: #F66426; /* Orange background */
+  color: white; /* Text color */
+  border-color: #F66426;
+  border-radius: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.accordion-button {
+  background-color: rgb(34, 34, 34);/* Force black background */
+  color: white; /* Force white text */
+}
+
+.accordion-button:not(.collapsed)::after {
+  filter: invert(1);
+  background-color: #F66426; /* Orange background */
+  color: white; /* Text color */
+  border-color: #F66426;
+}
+
+.accordion {
+  position: relative;
+}
+
+.accordion-item {
+  position: relative;
+  z-index: 1;
+}
+
+.accordion-collapse {
+  position: absolute;
+  width: 100%;
+  z-index: 0;
+}
+
+.accordion-container {
+  padding-bottom: 200px;
+}

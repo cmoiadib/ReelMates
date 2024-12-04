@@ -1,29 +1,60 @@
-<% content_for :meta_title, "ReelMates - Your Final Movie" %>
-<% content_for :meta_description, "Congratulations! You've found the perfect movie for your movie night. Sit back, relax, and enjoy the show with your friends!" %>
-
-<div class="container">
-  <h1>Final Result</h1>
-
-  <% winning_movie_data = @party.final_movies.find { |m| m['id'] == @winning_movie } %>
-
-  <% if @movies_liked[@winning_movie] == @party.party_players.count %>
-    <div class="text-center">
-      <h2>It's a match! 🎉</h2>
+<div class="container-fluid d-flex justify-content-center" style="min-height: 100vh; color: white;">
+  <div class="row w-100">
+    <div class="col-12 col-md-8 offset-md-2 ps-4 pe-4">
+      <% winning_movie_data = @party.final_movies.find { |m| m['id'] == @winning_movie } %>
+      <% if @movies_liked[@winning_movie] == @party.party_players.count %>
+        <div class="text-center mt-5" data-controller="match-animation">
+          <h2 style="font-size: 32px; color: #F66426;">IT'S A MATCH! 🎉</h2>
+        </div>
+      <% else %>
+        <div class="text-center mt-5">
+          <h2 style="font-size: 32px; color: #F66426;">MOST LIKED MOVIE</h2>
+          <p><%= @movies_liked[@winning_movie] %> out of <%= @party.party_players.count %> players liked this movie</p>
+        </div>
+      <% end %>
+      <% if winning_movie_data %>
+        <div class="d-flex justify-content-center align-items-center">
+          <div class="flip-card movie-result text-center mt-3 mb-4">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <%= image_tag "https://image.tmdb.org/t/p/w500#{winning_movie_data['poster_path']}",
+                    class: "movie-poster mb-3",
+                    style: "max-width: 300px; border-radius: 8px;" %>
+              </div>
+              <div class="flip-card-back text-center">
+                <h3 class="mt-2"><%= winning_movie_data['title'] %></h3>
+                <p class="movie-overview mt-3"><%= winning_movie_data['overview'] %></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
     </div>
-  <% else %>
-    <div class="text-center">
-      <h2>Most liked movie</h2>
-      <p><%= @movies_liked[@winning_movie] %> out of <%= @party.party_players.count %> players liked this movie</p>
-    </div>
-  <% end %>
-
-  <% if winning_movie_data %>
-    <div class="movie-result text-center mt-4">
-      <%= image_tag "https://image.tmdb.org/t/p/w500#{winning_movie_data['poster_path']}",
-          class: "movie-poster mb-3",
-          style: "max-width: 300px; border-radius: 8px;" %>
-      <h3><%= winning_movie_data['title'] %></h3>
-      <p class="movie-overview"><%= winning_movie_data['overview'] %></p>
-    </div>
-  <% end %>
+     <% if @video %>
+        <div class="accordion-container mt-3">
+          <div class="accordion" id="yourAccordionId">
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed rounded" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                  Watch Trailer
+                </button>
+              </h2>
+              <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#yourAccordionId">
+                <div class="accordion-body">
+                  <div class="ratio ratio-16x9 mb-4">
+                    <iframe
+                      src="https://www.youtube.com/embed/<%= @video['key'] %>"
+                      title="<%= @video['name'] %>"
+                      frameborder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowfullscreen>
+                    </iframe>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+  </div>
 </div>
