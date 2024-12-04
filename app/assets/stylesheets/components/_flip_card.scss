@@ -1,7 +1,7 @@
 .flip-card {
   background-color: transparent;
-  width: 400px;
-  height: 550px;
+  width: 350px;
+  height: 500px;
   border: 1px solid #f1f1f1;
   perspective: 1000px;
   border-radius: 8px;
@@ -39,8 +39,8 @@
   color: black;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 400px;
-  height: 550px;
+  width: 350px;
+  height: 500px;
 }
 
 /* Style the back side */
@@ -50,8 +50,8 @@
   transform: rotateY(180deg);
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 400px;
-  height: 550px;
+  width: 350px;
+  height: 500px;
   padding: 24px;
 
   p {
