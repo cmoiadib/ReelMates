@@ -23,10 +23,6 @@ label.custom-checkbox {
   transition: background-color 0.3s;
 }
 
-// label.custom-checkbox .checkbox-label {
-//   font-size: 14px;
-// }
-
 input[type="checkbox"]:checked + label.custom-checkbox {
   background-color: #F66426;
   padding: 4px 8px;
@@ -56,8 +52,9 @@ input[type="checkbox"]:checked + label.custom-checkbox {
   cursor: pointer;
   width: 25px;
   height: 25px;
-  top: -8px; /* Adjusted for better alignment with the connect bar */
   margin-top: 0;
+  right: -12px !important;
+  top: -6px !important;
 }
 
 #year-slider .noUi-handle:focus {
