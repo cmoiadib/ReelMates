@@ -23,34 +23,57 @@
             <div class="flip-card-inner">
               <div class="flip-card-front">
                 <%= image_tag "https://image.tmdb.org/t/p/w500#{winning_movie_data['poster_path']}",
-                    class: "movie-poster mb-3",
-                    style: "max-width: 300px; border-radius: 8px; box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);" %>
+                    class: "movie-poster",
+                    style: "width: 100%; height: 100%; object-fit: cover; border-radius: 8px;" %>
               </div>
+
               <div class="flip-card-back text-center position-relative"
-                   style="background: linear-gradient(rgba(0, 0, 0, 0.60), rgba(0, 0, 0, 0.60)),
+                   style="background: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)),
                           url('https://image.tmdb.org/t/p/w500<%= winning_movie_data['poster_path'] %>');
                    background-size: cover;
                    background-position: center;
                    backdrop-filter: blur(8px);
                    -webkit-backdrop-filter: blur(8px);
-                   padding: 20px;
+                   padding: 20px 32px;
                    border-radius: 8px;
                    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);">
-                <h3 class="mt-2" style="font-weight: bold; color: #FFFFFF;"><%= winning_movie_data['title'] %></h3>
-                <div class="d-flex justify-content-center align-items-center gap-2">
-                  <p class="text-white-50 mb-2" style="font-size: 0.9em;"><%= winning_movie_data['release_date'].to_date.strftime("%Y") %></p>
-                  <span class="text-white-50">•</span>
-                  <p class="text-white-50 mb-2" style="font-size: 0.9em;"> <%= winning_movie_data['genre_ids'].map { |id| Party::GENRES.find { |g| g[:id] == id }[:name] }.join(", ") %></p>
+
+                <h3 class="mt-4 py-2" style="font-weight: bold; color: #FFFFFF; max-height: 3em; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; white-space: normal;">
+                  <%= winning_movie_data['title'] %>
+                </h3>
+
+                <div class="text-center mt-1 mb-2" style="max-width: 100%; overflow: hidden;">
+                  <p class="text-white opacity-75 mb-1" style="font-size: 0.9em; display: inline;"><%= winning_movie_data['release_date'].to_date.strftime("%Y") %></p>
+                  <i class="fa-solid fa-circle" style="font-size: 0.3em; vertical-align: middle; margin: 0 0.5em; opacity: 0.75;"></i>
+                  <p class="text-white opacity-75 mb-2" style="font-size: 0.9em; display: inline; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 70%;"><%= winning_movie_data['genre_ids'].map { |id| Party::GENRES.find { |g| g[:id] == id }[:name] }.join(", ") %></p>
                 </div>
-                <div class="my-2">
-                  <p class="text-white-50 mb-1" style="font-size: 1.0em;">Synopsis</p>
-                  <p class="movie-overview px-2 mt-0" style="font-size: 0.9em; line-height: 1.5;"><%= winning_movie_data['overview'] %></p>
+
+                <div class="position-absolute mt-4" style="top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%;">
+                  <p class="my-1 pb-2" style="font-size: 1.0em; color: rgba(255, 255, 255, 0.75); font-weight: bold;">Synopsis</p>
+                  <p class="movie-overview px-2 mt-0 pb-3" style="font-size: 1.0em; line-height: 1.5; max-height: 232px; overflow-y: auto; text-align: justify;">
+                    <%= winning_movie_data['overview'] %>
+                  </p>
                 </div>
-                <div class="d-flex justify-content-center">
-                  <p class="text-white-50 mb-2" style="font-size: 0.9em;">platforms</p>
+
+                <div class="d-flex justify-content-center align-items-center position-absolute" style="bottom: 60px; left: 0; right: 0;">
+                  <p class="text-white opacity-75 mb-2" style="font-size: 1.1em;">
+                    Available on
+                    <% if winning_movie_data["available_providers"].present? %>
+                      <% Party::PROVIDERS
+                          .select { |p| winning_movie_data["available_providers"].include?(p[:id]) }
+                          .each do |provider| %>
+                        <span class="provider-name" style="color: #F66426; font-weight: bold; margin-left: 4px;">
+                          <%= provider[:name] %><%= " • " unless provider == Party::PROVIDERS.select { |p| winning_movie_data["available_providers"].include?(p[:id]) }.last %>
+                        </span>
+                      <% end %>
+                    <% else %>
+                      <span style="color: #999; margin-left: 4px;">Not available on selected platforms</span>
+                    <% end %>
+                  </p>
                 </div>
+
                 <div>
-                  <p class="position-absolute badge bg-warning text-light" style="bottom: 4px; right: 16px; font-size: 0.9em; padding: 0.5em 1em; border-radius: 4px;">
+                  <p class="position-absolute badge text-light" style="bottom: 4px; right: 16px; font-size: 0.9em; padding: 0.5em 1em; border-radius: 4px; background-color: #F66426;">
                   <i class="fa-solid fa-thumbs-up"></i>
                    <%= (winning_movie_data['vote_average'] * 10).to_i %>%
                   </p>
@@ -61,6 +84,7 @@
         </div>
       <% end %>
     </div>
+
      <% if @video %>
         <div class="accordion-container mt-3">
           <div class="accordion" id="yourAccordionId">
