@@ -29,20 +29,31 @@
             <%= image_tag "https://image.tmdb.org/t/p/w500#{movie["poster_path"]}", style: "width: 100%;" %>
             <div class="gradient-overlay"></div>
             <div class="movie-info">
-              <h3><%= movie["title"] %></h3>
-              <p class="provider">
-                <% if movie["available_providers"].present? %>
-                  Available on:
-                  <% Party::PROVIDERS
-                      .select { |p| movie["available_providers"].include?(p[:id]) }
-                      .each do |provider| %>
-                    <%= provider[:name] %><%= "," unless provider == Party::PROVIDERS.select { |p| movie["available_providers"].include?(p[:id]) }.last %>
-                  <% end %>
-                <% else %>
-                  Not available on selected platforms
-                <% end %>
-              </p>
-              <p class="rating">Rating: <%= movie["vote_average"].round(1) %>/10</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h3><%= movie["title"] %></h3>
+                  <p class="text-white opacity-75 mb-2" style="font-size: 0.9em;">
+                    Available on
+                    <% if movie["available_providers"].present? %>
+                      <% Party::PROVIDERS
+                          .select { |p| movie["available_providers"].include?(p[:id]) }
+                          .each do |provider| %>
+                        <span class="provider-name" style="color: #F66426; font-weight: bold; margin-left: 4px;">
+                          <%= provider[:name] %><%= " • " unless provider == Party::PROVIDERS.select { |p| movie["available_providers"].include?(p[:id]) }.last %>
+                        </span>
+                      <% end %>
+                    <% else %>
+                      <span style="color: #999; margin-left: 4px;">Not available on selected platforms</span>
+                    <% end %>
+                  </p>
+                </div>
+                <div class="d-flex align-items-center">
+                  <p class="badge text-light" style="font-size: 0.9em; padding: 0.5em 1em; border-radius: 4px; background-color: #F66426;">
+                    <i class="fa-solid fa-thumbs-up"></i>
+                    <%= (movie["vote_average"] * 10).to_i %>%
+                  </p>
+                </div>
+              </div>
               <div class="overview">
                 <p><%= movie["overview"] %></p>
               </div>
