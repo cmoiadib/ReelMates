@@ -45,13 +45,17 @@
 }
 
 #start-game-button {
-  margin-bottom: 20px;
+  // margin-bottom: 20px;
+  position: fixed;
+  bottom: 20px;
+  width: 80%;
 }
 
 .players-list {
   margin-bottom: 100px;
   font-family: 'Archivo', sans-serif;
   font-weight: bold;
+  height: 500px;
 }
 
 .player-item h4 {
