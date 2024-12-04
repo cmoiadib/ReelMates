@@ -16,8 +16,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 80px;
-  // margin-top: 50px;
+  margin-bottom: 30px;
+  margin-top: 40px;
+  margin-left: 55px;
+  margin-right: 55px;
 
   h1 {
     color: white;
@@ -58,7 +60,8 @@
 }
 
 .count-players {
-  margin-bottom: 30px;
+  margin-top: 20px;
+  margin-bottom: 10px;
 }
 
 h3 {
@@ -73,6 +76,8 @@ h3 {
   padding: 8px 16px;
   border-radius: 32px;
   font-family: "Archivo", sans-serif;
+  margin-top: 10px;
+  margin-bottom: 30px;
 }
 
 .back-settings {
@@ -82,4 +87,37 @@ h3 {
   text-decoration: none;
   margin-top: 20px;
   text-align: center;
+}
+
+.username {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.scrollable-players {
+  overflow-y: auto;
+  max-height: 350px;
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.players-list .d-flex {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  padding: 0 1rem;
+}
+
+.player-item {
+  text-align: center;
+  width: 100%;
 }

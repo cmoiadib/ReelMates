@@ -1,10 +1,12 @@
 <div class="players-list mt-3">
-  <% party.party_players.each do |player| %>
-    <div class="player-item d-flex align-items-center justify-content-center gap-2 mb-2">
-      <%= image_tag "avatars/#{player.user.avatar}",
-          class: "avatar-img",
-          style: "width: 70px; height: 70px; border-radius: 50%; object-fit: cover;" %>
-      <span class="h4 mb-0"><%= player.user.username %></span>
-    </div>
-  <% end %>
+  <div class="d-flex flex-wrap gap-4 justify-content-center">
+    <% party.party_players.each do |player| %>
+      <div class="player-item text-center">
+        <%= image_tag "avatars/#{player.user.avatar}",
+            class: "avatar-img",
+            style: "width: 70px; height: 70px; border-radius: 50%; object-fit: cover;" %>
+        <div class="username mb-0"><%= player.user.username %></div>
+      </div>
+    <% end %>
+  </div>
 </div>

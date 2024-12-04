@@ -1,4 +1,4 @@
-<div class="container-fluid-show-parties d-flex flex-column justify-content-center"
+<div class="container-fluid-show-parties d-flex flex-column justify-content-between"
      data-controller="party-subscription"
      data-party-subscription-party-id-value="<%= @party.id %>">
 
@@ -11,8 +11,8 @@
 
   <div data-party-subscription-target="content">
     <!-- Top section -->
-    <div class="text-center mb-4">
-      <div class="custom-box mx-auto d-flex align-items-center justify-content-center">
+    <div class="text-center">
+      <div class="custom-box d-flex align-items-center justify-content-center">
         <h1 class="mb-0 ms-3"><%= @party.party_code %></h1>
         <button id="shareButton" class="btn btn-share" data-controller="share" data-action="click->share#shareCode" data-share-code="<%= @party.party_code %>">
           <i class="fa-solid fa-share-from-square fa-lg" style="color: #FFFFFF;"></i>
@@ -27,7 +27,7 @@
       <%= render "players_count", party: @party %>
     </div>
 
-    <div id="players_list">
+    <div id="players_list" class="scrollable-players">
       <%= render "players_list", party: @party %>
     </div>
 
