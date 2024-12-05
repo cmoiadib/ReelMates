@@ -9,7 +9,7 @@
 
   <div class="loading-screen d-none text-center waiting-message">
     <!-- Add the first GIF (swipe left) -->
-   <img id="swipe-gif" src="<%= asset_path('swipe-left.gif') %>" alt="Swipe"
+   <img id="swipe-gif" src="<%= asset_path('swipe-left.gif') %>" alt="Swipe" loading="eager"
      style="max-width: 100px; max-height: 100px; margin-bottom: 10px; opacity: 1; visibility: visible; transition: opacity 1s ease, visibility 0s 1s;">
 
     <p>To better understand your tastes, we will show you 20 movies to swipe through.</p>
@@ -70,7 +70,7 @@
     // Wait for the fade-out to complete
     setTimeout(function() {
       // Change the GIF source to the right swipe icon
-      gifElement.src = '<%= asset_path('swipe-right.gif') %>';
+      gifElement.src = '<%= asset_path('swipe-right.gif') %>?t=' + new Date().getTime();
 
       // Ensure the element is visible before starting the fade-in
       gifElement.style.visibility = 'visible';
@@ -80,3 +80,10 @@
     }, 1000); // 1 second fade-out time
   }, 4000); // Change GIF after 5 seconds
 </script>
+
+<style>
+  #swipe-gif {
+    opacity: 1;
+    transition: opacity 1s ease-in-out;
+  }
+</style>
