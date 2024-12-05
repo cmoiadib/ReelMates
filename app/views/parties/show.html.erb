@@ -21,16 +21,19 @@
 
   <div data-party-subscription-target="content">
     <!-- Top section -->
-    <div class="text-center">
-      <div class="custom-box d-flex align-items-center justify-content-center"
-           data-controller="copy"
-           data-copy-target="box"
-           data-action="click->copy#copy">
-        <h1 class="party-code mb-0 ms-3"><%= @party.party_code %></h1>
-        <button id="shareButton" class="btn btn-share" data-controller="share" data-action="click->share#shareCode" data-share-code="<%= @party.party_code %>">
-          <i class="fa-solid fa-share-from-square fa-lg" style="color: #FFFFFF;"></i>
-        </button>
-        <input type="hidden" data-copy-target="value" value="<%= @party.party_code %>">
+    <div class="text-center align align-self-center">
+      <p class="share-text">Share it with your friends</p>
+      <div class="party-code-container">
+        <div class="custom-box d-flex align-items-center justify-content-center"
+             data-controller="copy"
+             data-copy-target="box"
+             data-action="click->copy#copy">
+          <h1 class="party-code mb-0"><%= @party.party_code %></h1>
+          <button id="shareButton" data-controller="share" data-action="click->share#shareCode" data-share-code="<%= @party.party_code %>">
+            <i class="fa-solid fa-share-from-square fa-lg" style="color: #FFFFFF;"></i>
+          </button>
+          <input type="hidden" data-copy-target="value" value="<%= @party.party_code %>">
+        </div>
       </div>
     </div>
 
