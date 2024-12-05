@@ -1,3 +1,9 @@
 <div class="count-players text-center">
-  <h3><%= party.party_players.count %> PLAYERS</h3>
+  <h3>
+    <% if party.party_players.count == 1 %>
+      <%= party.party_players.count %> PLAYER
+    <% else %>
+      <%= party.party_players.count %> PLAYERS
+    <% end %>
+  </h3>
 </div>
