@@ -13,7 +13,7 @@
         </div>
       <% else %>
         <div class="text-center mt-5">
-          <h2 style=style="font-size: 36px; color: #F66426; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); letter-spacing: 1px; margin-bottom: 20px;">MOST LIKED MOVIE</h2>
+          <h2 style="font-size: 36px; color: #F66426; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); letter-spacing: 1px; margin-bottom: 20px;">MOST LIKED MOVIE</h2>
           <p><%= @movies_liked[@winning_movie] %> out of <%= @party.party_players.count %> players liked this movie</p>
         </div>
       <% end %>
@@ -90,9 +90,9 @@
      <% if @video %>
         <div class="accordion-container mt-3">
           <div class="accordion" id="yourAccordionId">
-            <div class="accordion-item">
+            <div class="accordion-item" style="border-radius: 16px;">
               <h2 class="accordion-header">
-                <button class="accordion-button collapsed rounded" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne"
+                <button class="accordion-button collapsed" style="border-radius: 16px;" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne"
                         style="transition: all 0.3s ease; opacity: 0.9;"
                         onmouseover="this.style.opacity='1'; this.style.transform='scale(1.02)'"
                         onmouseout="this.style.opacity='0.9'; this.style.transform='scale(1)'">
@@ -118,3 +118,8 @@
       <% end %>
   </div>
 </div>
+<style>
+.accordion-button:not(.collapsed)::after {
+  background-color: transparent;
+}
+</style>
