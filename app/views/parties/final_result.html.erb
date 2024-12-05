@@ -40,19 +40,19 @@
                    border-radius: 8px;
                    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);">
 
-                <h3 class="mt-4 py-2" style="font-weight: bold; color: #FFFFFF; max-height: 3em; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; white-space: normal;">
+                <h3 class="mt-2" style="font-weight: bold; color: #FFFFFF; max-height: 3em; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; white-space: normal;">
                   <%= winning_movie_data['title'] %>
                 </h3>
 
-                <div class="text-center mt-1 mb-2" style="max-width: 100%; overflow: hidden;">
+                <div class="text-center mt-1" style="max-width: 100%; overflow: hidden;">
                   <p class="text-white opacity-75 mb-1" style="font-size: 0.9em; display: inline;"><%= winning_movie_data['release_date'].to_date.strftime("%Y") %></p>
                   <i class="fa-solid fa-circle" style="font-size: 0.3em; vertical-align: middle; margin: 0 0.5em; opacity: 0.75;"></i>
                   <p class="text-white opacity-75 mb-2" style="font-size: 0.9em; display: inline; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 70%;"><%= winning_movie_data['genre_ids'].map { |id| Party::GENRES.find { |g| g[:id] == id }[:name] }.join(", ") %></p>
                 </div>
 
-                <div class="position-absolute mt-4" style="top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%;">
+                <div class="position-absolute mt-2" style="top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%;">
                   <p class="my-1 pb-2" style="font-size: 1.0em; color: rgba(255, 255, 255, 0.75); font-weight: bold;">Synopsis</p>
-                  <p class="movie-overview px-2 mt-0 pb-3" style="font-size: 1.0em; line-height: 1.5; max-height: 232px; overflow-y: auto; text-align: justify;">
+                  <p class="movie-overview px-2 mt-0 pb-3" style="font-size: 0.9em; line-height: 1.5; max-height: 200px; overflow-y: auto; text-align: justify;">
                     <%= winning_movie_data['overview'] %>
                   </p>
                 </div>
