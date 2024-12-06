@@ -7,7 +7,7 @@
       <% winning_movie_data = @party.final_movies.find { |m| m['id'] == @winning_movie } %>
       <% if @movies_liked[@winning_movie] == @party.party_players.count %>
         <div class="text-center mt-5" data-controller="match-animation">
-          <h2 style="font-size: 36px; color: #F66426; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); letter-spacing: 1px; margin-bottom: 20px;">
+          <h2 style="font-size: 32px; color: #F66426; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); letter-spacing: 1px; margin-bottom: 20px;">
             IT'S A MATCH! 🎉
           </h2>
         </div>
