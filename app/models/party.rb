@@ -82,7 +82,7 @@ class Party < ApplicationRecord
     end
 
     party_players.each do |party_player|
-      selected_movies = all_movies.sample(10)
+      selected_movies = all_movies.sample(20)
 
       # Add provider information to each movie
       selected_movies.each do |movie|
